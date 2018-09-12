@@ -9,6 +9,8 @@ You can download a Mac Pre-release
 
 You can download a Windows Pre-release soon
 
+Source is available [here](https://github.com/michael79bxl/open-eid)
+
 ## Requirements
 
 - Windows or Mac OS
