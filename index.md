@@ -12,8 +12,20 @@ You can download a Windows Pre-release soon
 ## Requirements
 
 - Windows or Mac OS
-- Middleware (for Belgium, download [here](https://eid.belgium.be/))
+- Middleware (for Belgium, download [here](https://eid.belgium.be/)) and/or smartcard driver
 - Browser compatible with native URL or Chrome Native Messaging extension
+
+## Native URL
+
+The native app can be called using a special open-eid: URL scheme followed by the URL used to redirect e-ID data.
+
+The data is sent to the redirection URL fragment as an URL encoded JSON object after #.
+
+Each value in the JSON array is also URL encoded.
+
+*Right now, the redirection URL is loaded using the default browser.
+
+Future releases will open the currently running browser and will only support HTTPS redirection URL.*
 
 ## Chrome extension
 
