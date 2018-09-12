@@ -16,7 +16,13 @@ This is a pre-release version 0.1 with the following features
 
 *Windows and Mac versions are not synchronized about features or output format.*
 
-## Developement
+## Project goals
+
+- Provide opensource alternative for e-ID card reading and signing for modern browsers
+- Read e-ID card content
+- KISS (Keep It Simple and Secure)
+
+## Developement tools
 
 - The windows version is developed using the freebasic compiler and the Swelio library
 - The mac version is developed using nodejs
