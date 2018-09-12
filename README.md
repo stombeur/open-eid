@@ -5,6 +5,7 @@ open-eid is a native plugin for the web to make e-ID card reading and signing ea
 ## Download
 
 You can download a Mac Pre-release here
+
 https://github.com/michael79bxl/open-eid/raw/master/release/Open-eID.dmg
 
 You can download a Windows Pre-release soon
@@ -18,7 +19,8 @@ You can download a Windows Pre-release soon
 ## Chrome extension
 
 In order for the chrome extension to work, the app must be launched once.
-On Mac OS, the app must be installed in /Application.
+
+On Mac OS, the app must be installed in /Applications.
 
 ## Status
 
@@ -35,6 +37,8 @@ The app has been tested on Windows and Mac OS with belgian e-ID cards.
 - Provide opensource alternative for e-ID card reading and signing for modern browsers
 - Read e-ID card content
 - KISS (Keep It Simple and Secure)
+- Linux version
+- Mobile version "à-la" itsme for Android & iOS)
 
 ## Developement tools
 
