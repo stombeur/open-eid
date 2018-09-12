@@ -33,7 +33,7 @@ Each value in the JSON array is also URL encoded.
 
 In order for the chrome extension to work, the native app must be launched once.
 
-On Mac OS, the native app must be installed in /Applications.
+On Mac OS, the native app must be installed in /Applications
 
 The Chrome extension is available
 [here](https://chrome.google.com/webstore/detail/open-eid/cgdhcnihnfegipidedmkijjkbphakcjo)
