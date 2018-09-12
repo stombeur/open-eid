@@ -54,9 +54,12 @@ The app has been tested on Windows and Mac OS with belgian e-ID cards.
 
 - Provide opensource alternative for e-ID card reading and signing for modern browsers
 - Read e-ID card content
+- Sign content and documents using e-ID card
 - KISS (Keep It Simple and Secure)
 - Linux version
 - Mobile version "à-la" itsme for Android & iOS
+
+*Authentication is not a project goal. This can be achieved using mutual SSL.*
 
 ## Developement tools
 
