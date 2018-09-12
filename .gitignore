@@ -1,0 +1,4 @@
+.DS_Store
+tools/
+build/
+src/mac/node_modules/

@@ -1,0 +1,40 @@
+<style content="text/css">
+tt {
+  display: block;
+}
+</style>
+<script type="text/javascript">
+<!--//
+
+window.localStorage.setItem('open-eid', '');
+
+//-->
+</script>
+<a href="javascript:window.postMessage({url: 'open-eid-read:'}, '*');" onclick="
+
+window.eidInterval = setInterval(function() {
+  console.log('Wait for Open-eID result...');
+  var eid = window.localStorage.getItem('open-eid');
+  if(typeof eid != 'undefined' && eid != null) {
+    if(eid != '') {
+      console.log(eid);
+      clearInterval(window.eidInterval);
+      var json = eval('(' + eid + ')');
+      window.localStorage.setItem('open-eid', '');      
+      var tt = document.createElement('tt');
+      tt.innerHTML = '{';
+      document.body.appendChild(tt);
+      for(var i in json) {
+        var tt = document.createElement('tt');
+        tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;';
+        document.body.appendChild(tt);
+      }
+      var tt = document.createElement('tt');
+      tt.innerHTML = '}';
+      document.body.appendChild(tt);
+    }
+  }
+}, 1000);
+
+">Chrome extension test</a>
+<hr />
