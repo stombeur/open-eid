@@ -22,7 +22,7 @@ hdiutil create -srcfolder ../../build/mac/ -volname "Open-eID" -fs HFS+ -fsargs 
 DEVICE=$(hdiutil attach -readwrite -noverify "../../build/Open-eID.dmg" | egrep '^/dev/' | sed 1q | awk '{print $1}')
 sleep 2
 pushd /Volumes/Open-eID
-#ln -s /Applications
+ln -s /Applications
 popd
 sleep 2
 sync
