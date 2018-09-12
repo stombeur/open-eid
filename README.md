@@ -22,9 +22,7 @@ In order for the chrome extension to work, the native app must be launched once.
 
 On Mac OS, the native app must be installed in /Applications.
 
-The extension is available here
-
-https://chrome.google.com/webstore/detail/open-eid/cgdhcnihnfegipidedmkijjkbphakcjo
+The extension is available (here)[https://chrome.google.com/webstore/detail/open-eid/cgdhcnihnfegipidedmkijjkbphakcjo]
 
 You can test the extension on the following page
 
@@ -46,7 +44,7 @@ The app has been tested on Windows and Mac OS with belgian e-ID cards.
 - Read e-ID card content
 - KISS (Keep It Simple and Secure)
 - Linux version
-- Mobile version "à-la" itsme for Android & iOS)
+- Mobile version "à-la" itsme for Android & iOS
 
 ## Developement tools
 
