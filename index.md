@@ -21,8 +21,9 @@ In order for the chrome extension to work, the native app must be launched once.
 
 On Mac OS, the native app must be installed in /Applications.
 
-The extension is available
+The Chrome extension is available
 [here](https://chrome.google.com/webstore/detail/open-eid/cgdhcnihnfegipidedmkijjkbphakcjo)
+on the Chrome Web Store
 
 You can test the extension on the 
 [following page](https://michael79bxl.github.io/open-eid/src/chrome_test.html)
