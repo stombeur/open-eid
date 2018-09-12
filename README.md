@@ -2,6 +2,12 @@
 
 open-eid is a native plugin for the web to make e-ID card reading and signing easier.
 
+## Requirements
+
+- Windows or Mac OS
+- Middleware
+- Browser compatible pour native URL or Chrome Native Messaging extension
+
 ## Status
 
 This is a pre-release version 0.1 with the following features
