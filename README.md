@@ -2,11 +2,23 @@
 
 open-eid is a native plugin for the web to make e-ID card reading and signing easier.
 
+## Download
+
+You can download a Mac Pre-release here
+https://github.com/michael79bxl/open-eid/raw/master/release/Open-eID.dmg
+
+You can download a Windows Pre-release soon
+
 ## Requirements
 
 - Windows or Mac OS
 - Middleware
 - Browser compatible with native URL or Chrome Native Messaging extension
+
+## Chrome extension
+
+In order for the chrome extension to work, the app must be launched once.
+On Mac OS, the app must be installed in /Application.
 
 ## Status
 
