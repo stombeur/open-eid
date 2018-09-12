@@ -23,7 +23,7 @@ try { h = decodeURIComponent(h); } catch(e) { h = unescape(h); }
 var json = eval('(' + h + ')');
 if(typeof json == 'object') {
   for(var i in json) {
-    try { json[i]] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
+    try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
   }
   var tt = document.createElement('tt');
   tt.innerHTML = '{';
