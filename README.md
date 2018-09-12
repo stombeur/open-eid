@@ -26,6 +26,8 @@ This is a pre-release version 0.1 with the following features
 
 - Read eID card content using URL or Chrome extension
 
+The app has been tested on Windows and Mac OS with belgian e-ID cards.
+
 *Windows and Mac versions are not synchronized about features or output format.*
 
 ## Project goals
