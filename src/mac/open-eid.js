@@ -10,7 +10,8 @@ var nativehost = {
   "path": '/Applications/Open-eID.app/Contents/MacOS/open-eid',
   "type": "stdio",
   "allowed_origins": [
-    "chrome-extension://elkdefnldphjoeafcphbiknjfdhjnngm/"
+    "chrome-extension://elkdefnldphjoeafcphbiknjfdhjnngm/",
+    "chrome-extension://cgdhcnihnfegipidedmkijjkbphakcjo/"
   ]
 };
 //fs.createReadStream('io.github.michael79bxl.node_eid.json').pipe(fs.createWriteStream(homedir + '/Library/Application Support/Google/Chrome/NativeMessagingHosts/io.github.michael79bxl.node_eid.json'));

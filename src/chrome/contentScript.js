@@ -3,7 +3,10 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
  
   //console.log(request, sender);
   
-  if(sender.id != 'elkdefnldphjoeafcphbiknjfdhjnngm') return;
+  // developement = elkdefnldphjoeafcphbiknjfdhjnngm
+  // chrome webstore = cgdhcnihnfegipidedmkijjkbphakcjo  
+  
+  if(sender.id != 'elkdefnldphjoeafcphbiknjfdhjnngm' && sender.id != 'cgdhcnihnfegipidedmkijjkbphakcjo') return;
 
   window.postMessage(request, '*');
 });
