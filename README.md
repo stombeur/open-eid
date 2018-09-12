@@ -2,4 +2,4 @@
 
 open-eid is a native plugin for the web to make e-ID card reading and signing easier.
 
-(Read more)[index.md]
+[Read more](https://michael79bxl.github.io/open-eid/)
