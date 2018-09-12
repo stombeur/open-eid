@@ -29,9 +29,7 @@ The data is sent to the redirection URL fragment as an URL encoded JSON object a
 
 Each value in the JSON array is also URL encoded.
 
-*Right now, the redirection URL is loaded using the default browser.*
-
-*Future releases will open the currently running browser and will only support HTTPS redirection URL.*
+*Future releases will only support HTTPS redirection URL.*
 
 ## Chrome extension
 

@@ -24,6 +24,8 @@ var stdin = '';
 var stdlen = 0;
 var isnative = false;
 
+process.env.BROWSER = '';
+
 var timeout = setTimeout(function() {
   if(stdin == '') {
     eid();
@@ -70,8 +72,9 @@ function native(obj) {
        process.stdout.setEncoding('utf8');       
        process.stdout.write(json);  
      } else {
-       var args = [process.env.ARG];
-       exec('open "' + args[0].substring(args[0].indexOf(':') + 1) + '#' + encodeURIComponent(json) + '"');
+       var args = [process.env.ARG, process.env.BROWSER];
+       if(args[1] != '') args[1] = '-a "' + args[1] + '"';
+       exec('open ' + args[1] + ' "' + args[0].substring(args[0].indexOf(':') + 1) + '#' + encodeURIComponent(json) + '"');
      }
 }
 
@@ -136,6 +139,8 @@ function eid(confirm) {
       }
       
       process.env.ARG = args[0];
+      if(args.length > 1) process.env.BROWSER = args[1];
+      //execSync("osascript -e 'tell app \"System Events\" to display dialog \"" + process.env.BROWSER + "\"'");
             
       if(args[0].indexOf('open-eid:') == 0 || args[0].indexOf('open-eid-read:') == 0) {  
         var result = '';
@@ -189,7 +194,7 @@ function eid(confirm) {
       pkcs11.C_CloseSession(session);
   }
   catch(e){
-      obj = {err: e};
+      obj = {err: JSON.stringify(e)};
       native(obj);
       console.error(e);
   }
