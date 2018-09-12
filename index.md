@@ -12,7 +12,7 @@ You can download a Windows Pre-release soon
 ## Requirements
 
 - Windows or Mac OS
-- Middleware
+- Middleware (for Belgium, download [here](https://eid.belgium.be/))
 - Browser compatible with native URL or Chrome Native Messaging extension
 
 ## Chrome extension
