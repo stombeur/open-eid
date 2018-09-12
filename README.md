@@ -18,9 +18,17 @@ You can download a Windows Pre-release soon
 
 ## Chrome extension
 
-In order for the chrome extension to work, the app must be launched once.
+In order for the chrome extension to work, the native app must be launched once.
 
-On Mac OS, the app must be installed in /Applications.
+On Mac OS, the native app must be installed in /Applications.
+
+The extension is available here
+
+https://chrome.google.com/webstore/detail/open-eid/cgdhcnihnfegipidedmkijjkbphakcjo
+
+You can test the extension on the following page
+
+https://michael79bxl.github.io/open-eid/src/chrome_test.html
 
 ## Status
 
