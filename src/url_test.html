@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>Open-eID URL Demo</title>
+</head>
+<body>
+<style content="text/css">
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+tt {
+  display: block;
+}
+</style>
+Chrome URL Demo
+<hr />
+<script type="text/javascript">
+<!--//
+
+var h = new String(location.hash).substring(1);
+try { h = decodeURIComponent(h); } catch(e) { h = unescape(h); }
+var json = eval('(' + h + ')');
+if(typeof json == 'object') {
+  for(var i in json) {
+    try { json[i]] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
+  }
+  var tt = document.createElement('tt');
+  tt.innerHTML = '{';
+  document.body.appendChild(tt);
+  for(var i in json) {
+    var tt = document.createElement('tt');
+    tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;';
+    document.body.appendChild(tt);
+  }
+  var tt = document.createElement('tt');
+  tt.innerHTML = '}';
+  document.body.appendChild(tt);
+}
+
+//-->
+</script>
+</body>
+</html>
