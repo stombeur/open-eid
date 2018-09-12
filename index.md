@@ -21,6 +21,8 @@ The native app can be called using a special `open-eid:` URL scheme followed by 
 
 Sample: `open-eid:https://michael79bxl.github.io/open-eid/src/url_test.html`
 
+Test this sample [here](open-eid:https://michael79bxl.github.io/open-eid/src/url_test.html)
+
 The data is sent to the redirection URL fragment as an URL encoded JSON object after `#`.
 
 Each value in the JSON array is also URL encoded.
