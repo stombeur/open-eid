@@ -7,7 +7,8 @@ open-eid is a native plugin for the web to make e-ID card reading and signing ea
 You can download a Mac Pre-release
 [here](https://github.com/michael79bxl/open-eid/raw/master/release/Open-eID.dmg)
 
-You can download a Windows Pre-release soon
+You can download a Windows Pre-release
+[here](https://github.com/michael79bxl/open-eid/raw/master/release/Open-eID.exe)
 
 Source is available [here](https://github.com/michael79bxl/open-eid)
 

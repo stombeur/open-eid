@@ -2,6 +2,28 @@
 '#inclib "Swelio32"
 #include "MemoryModule.bi"
 
+'Get browser path
+Dim hWnd As HWND
+Dim WindowTextLength As Integer
+Dim WindowText As String
+Dim PID As Long
+Dim Browser As String
+Dim BrowserLen As Long
+Dim hProcess As Long
+
+Declare Function GetModuleFileNameEx Lib "PSAPI.DLL" Alias "GetModuleFileNameExA" (ByVal hProcess As Long, ByVal hModule As Long, ByVal ModuleName As ZString Ptr, ByVal nSize As Long) As Long
+
+hWnd = GetForegroundWindow
+WindowTextLength = GetWindowTextLength(hWnd)
+WindowText = Space(WindowTextLength)
+GetWindowText hWnd, StrPtr(WindowText), WindowTextLength + 1
+GetWindowThreadProcessId(hWnd, @PID)
+Browser = Space(4096)
+hProcess = OpenProcess(1040, 0, PID)
+BrowserLen = GetModuleFileNameEx(hProcess, 0, StrPtr(Browser), 4096)
+CloseHandle(@hProcess)
+Browser = Left(Browser, BrowserLen)
+If Browser = "" Then Browser = "start"
 
 'Declare Function Swelio_IsEngineActive Lib "Swelio32" Alias "IsEngineActive" () As Boolean
 'Declare Function Swelio_StartEngine Lib "Swelio32" Alias "StartEngine" () As Boolean
@@ -33,7 +55,7 @@ open command(0) for binary as #1
 fl = LOF(1)
 EXEDATA = allocate(fl)
 if get (#1,, *EXEDATA, fl) then
-    print "Error reading executable file to memory."
+    Error 9999
     end
 end if
 close #1
@@ -53,7 +75,7 @@ Dim dllpos As Integer
 dllpos = instr(dummyString, UCase(swelio32dll_sign)) 'Trick to ignore this line
 'Print "DLL signature is @" & dllpos
 If dllpos = 0 Then
-  print "Error reading library file to memory."
+  Error 9999
   end
 End If
 dllpos = dllpos + len(swelio32dll_sign)
@@ -64,7 +86,7 @@ fl = LOF(fl) - dllpos + fl
 'Print "DLL size is " & fl
 DLLDATA = allocate(fl)
 if get (#1, dllpos, *DLLDATA, fl) then
-    print "Error reading executable file to memory."
+    Error 9999
     end
 end if
 close #1    
@@ -214,9 +236,9 @@ Do
     i += 1
 Loop
 
-If Mid(args, 15) = "" Then End
+If Left(args, InStr(args, ":") + 1) = "" Then End
 
-If MessageBox(0, Mid(args, 15) & " wants to access your eID card content. Do you agree?", "eID", MB_YESNO OR MB_ICONQUESTION OR MB_DEFBUTTON2 OR MB_SYSTEMMODAL) <> IDYES Then End
+If MessageBox(0, Mid(args, InStr(args, ":") + 1) & " wants to access your eID card content. Do you agree?", "eID", MB_YESNO OR MB_ICONQUESTION OR MB_DEFBUTTON2 OR MB_SYSTEMMODAL) <> IDYES Then End
 
 tmp = Environ("USERPROFILE") & "\eID.xml"
 Swelio_FileDelete(StrPtr(tmp))
@@ -243,7 +265,7 @@ If engine Then
       Wend
       Close f
       'Print "{" & XmlToJSON(xml) & "}"
-      Shell "start " & Mid(args, 15) & "#" & URLEncode("{" & XmlToJSON(xml) & "}")
+      Exec(Browser, Mid(args, InStr(args, ":") + 1) & "#" & URLEncode("{" & XmlToJSON(xml) & "}"))
       'Call swelio_SavePhotoAsJpeg(StrPtr(photo))
       Goto Done:
     Else
@@ -268,10 +290,11 @@ End
 
 OnError:
 errmsg = "Unknow error"
+If Err = 9999 Then errmsg = "Error loading library(" & Erl & ")"
 If Err = 9992 Then errmsg = "Could not extract card data. Please verify that the card is valid and propertly inserted into the smartcard reader and (homedir)/eID.xml is writable."
 If Err = 9991 Then errmsg = "No card detected. Please verify that the card is valid and propertly inserted into the smartcard reader."
 If Err = 9990 Then errmsg = "No engine detected. Please verify that the middleware and drivers are installed."
 msg = "{""err"":""Error #" & Err & " - " & errmsg & """}"
-Shell "start " & Mid(args, 15) & "#" & URLEncode(msg)
+Exec(Browser, Mid(args, InStr(args, ":") + 1) & "#" & URLEncode(msg))
 End
 
