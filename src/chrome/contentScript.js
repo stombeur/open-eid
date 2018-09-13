@@ -31,8 +31,8 @@ window.addEventListener('message', function(event) {
       console.log('Window: Firefox');
       browser.runtime.sendMessage(event.data);        
     } else {
-        console.log('Window: Chrome');
-        chrome.extension.sendMessage(event.data);
+      console.log('Window: Chrome');
+      chrome.extension.sendMessage(event.data);
     }
   } else {
     var data = event.data;
