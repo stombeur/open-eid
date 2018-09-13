@@ -1,6 +1,6 @@
 {
     "name": "Open-eID",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Open-eID extension (read & sign)",
     "background": {
       "scripts": ["background.js"],
@@ -24,7 +24,7 @@
     "applications": {
       "gecko": {
         "id": "firefox@open-eid.eu.org",
-        "strict_min_version": "42.0"
+        "strict_min_version": "50.0"
       }
     },
     "manifest_version": 2

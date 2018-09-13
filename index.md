@@ -16,7 +16,7 @@ Source is available [here](https://github.com/michael79bxl/open-eid)
 
 - Windows or Mac OS
 - Middleware (for Belgium, download [here](https://eid.belgium.be/)) and/or smartcard driver
-- Browser compatible with native URL or Chrome Native Messaging extension
+- Browser compatible with native URL or Web Native Messaging extension (Chrome, Firefox, Edge)
 
 ## Native URL
 
@@ -32,15 +32,17 @@ Each value in the JSON array is also URL encoded.
 
 *Future releases will only support HTTPS redirection URL.*
 
-## Chrome extension
+## Web extension
 
-In order for the chrome extension to work, the native app must be launched once.
+In order for the web extension to work, the native app must be launched once.
 
 On Mac OS, the native app must be installed in /Applications
 
-The Chrome extension is available
+The web extension is available
 [here](https://chrome.google.com/webstore/detail/open-eid/cgdhcnihnfegipidedmkijjkbphakcjo)
-on the Chrome Web Store
+on the Chrome Web Store and
+[here](https://addons.mozilla.org/fr/firefox/addon/open-eid/)
+on the Firefox Web Stoe
 
 You can test the extension on the 
 [following page](https://michael79bxl.github.io/open-eid/src/chrome_test.html)

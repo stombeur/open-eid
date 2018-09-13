@@ -1,4 +1,7 @@
-if(!chrome) chrome = browser;
+if(typeof browser != 'undefined' && browser != null) {
+  console.log('Background: Firefox');
+  chrome = browser;
+}
 
 // get request from content script
 chrome.runtime.onMessage.addListener(function(request, sender) {

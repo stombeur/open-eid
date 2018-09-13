@@ -13,13 +13,14 @@ var nativehost = {
     "chrome-extension://elkdefnldphjoeafcphbiknjfdhjnngm/",
     "chrome-extension://cgdhcnihnfegipidedmkijjkbphakcjo/"
   ],
-  "allowed_extensions": [
-    "firefox@open-eid.eu.org"
-  ]  
 };
 //fs.createReadStream('io.github.michael79bxl.node_eid.json').pipe(fs.createWriteStream(homedir + '/Library/Application Support/Google/Chrome/NativeMessagingHosts/io.github.michael79bxl.node_eid.json'));
 fs.writeFile(homedir + '/Library/Application Support/Google/Chrome/NativeMessagingHosts/io.github.michael79bxl.open_eid.json', JSON.stringify(nativehost), function(err) {});
 //todo create /Mozilla/NativeMessagingHosts dir
+delete nativehost["allowed_origins"];
+nativehost["allowed_extensions"] = [
+  "firefox@open-eid.eu.org"
+];
 fs.writeFile(homedir + '/Library/Application Support/Mozilla/NativeMessagingHosts/io.github.michael79bxl.open_eid.json', JSON.stringify(nativehost), function(err) {});
 
 process.stdin.setEncoding('utf8');

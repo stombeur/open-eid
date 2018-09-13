@@ -3,6 +3,7 @@ if(!chrome) chrome = browser;
 // get result from extension
 chrome.runtime.onMessage.addListener(function(request, sender) {
  
+  console.log('Extension');
   console.log(request, sender);
   
   // chrome dev = elkdefnldphjoeafcphbiknjfdhjnngm
@@ -13,7 +14,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
   && sender.id != 'cgdhcnihnfegipidedmkijjkbphakcjo'
   && sender.id != 'firefox@open-eid.eu.org') return;
 
-  window.postMessage(request, '*');
+  if(request) window.postMessage(request, '*');
 });
 
 // get request from web page
@@ -26,9 +27,11 @@ window.addEventListener('message', function(event) {
   // send request to extension
   if('url' in event.data) {
     event.data.url = event.data.url + new String(event.source.location);
-    if(window.browser) {
-        browser.runtime.sendMessage(event.data);
+    if(typeof browser != 'undefined' && browser != null) {
+      console.log('Window: Firefox');
+      browser.runtime.sendMessage(event.data);        
     } else {
+        console.log('Window: Chrome');
         chrome.extension.sendMessage(event.data);
     }
   } else {
