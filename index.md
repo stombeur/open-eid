@@ -8,7 +8,7 @@ You can download a Mac and Windows Pre-release
 [here](https://github.com/michael79bxl/open-eid/release)
 from the release folder
 
-Source is available [here](https://github.com/michael79bxl/open-eid)
+Source is available [here](https://github.com/michael79bxl/open-eid/src)
 
 ## Requirements
 
