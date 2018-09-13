@@ -18,5 +18,5 @@ on run argv
 	tell application "Finder"
 		set current_path to (POSIX path of (path to me))
 	end tell
-	do shell script current_path & "Contents/MacOS/open-eid " & argv & " \"" & appPath & "\""
+	do shell script current_path & "Contents/MacOS/open-eid " & argv
 end run

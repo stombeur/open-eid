@@ -1,3 +1,5 @@
+if(!chrome) chrome = browser;
+
 // get request from content script
 chrome.runtime.onMessage.addListener(function(request, sender) {
   console.log(request, sender);
