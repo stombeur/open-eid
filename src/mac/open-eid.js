@@ -92,36 +92,7 @@ function eid(confirm) {
   var pkcs11 = new pkcs11js.PKCS11(); 
   
   try {
-
-      pkcs11.load("/usr/local/lib/libbeidpkcs11.dylib");
-       
-      pkcs11.C_Initialize();
-
-      // Getting info about PKCS11 Module
-      var module_info = pkcs11.C_GetInfo();
-   
-      // Getting list of slots
-      var slots = pkcs11.C_GetSlotList(true);
-      if(slots.length == 0) {
-        console.log('{"err":"No card reader found or no card inserted"}');
-        return;
-      }
-      var slot = slots[0];
-   
-      // Getting info about slot
-      var slot_info = pkcs11.C_GetSlotInfo(slot);
-      // Getting info about token
-      var token_info = pkcs11.C_GetTokenInfo(slot);
-   
-      // Getting info about Mechanism
-      var mechs = pkcs11.C_GetMechanismList(slot);
-      var mech_info = pkcs11.C_GetMechanismInfo(slot, mechs[0]);
-   
-      var session = pkcs11.C_OpenSession(slot, pkcs11js.CKF_RW_SESSION | pkcs11js.CKF_SERIAL_SESSION);
-   
-      // Getting info about Session
-      var info = pkcs11.C_GetSessionInfo(session);
-      
+    
       var args = [''];      
       args[0] = stdin;
       
@@ -145,8 +116,38 @@ function eid(confirm) {
       
       process.env.ARG = args[0];
       if(args.length > 1) process.env.BROWSER = args[1];
-      //execSync("osascript -e 'tell app \"System Events\" to display dialog \"" + process.env.BROWSER + "\"'");
-            
+      //execSync("osascript -e 'tell app \"System Events\" to display dialog \"" + process.env.BROWSER + "\"'");    
+
+      pkcs11.load("/usr/local/lib/libbeidpkcs11.dylib");
+       
+      pkcs11.C_Initialize();
+
+      // Getting info about PKCS11 Module
+      var module_info = pkcs11.C_GetInfo();
+   
+      // Getting list of slots
+      var slots = pkcs11.C_GetSlotList(true);
+      if(slots.length == 0) {
+        native({"err":"No card reader found or no card inserted"});
+        console.error('{"err":"No card reader found or no card inserted"}');
+        return;
+      }
+      var slot = slots[0];
+   
+      // Getting info about slot
+      var slot_info = pkcs11.C_GetSlotInfo(slot);
+      // Getting info about token
+      var token_info = pkcs11.C_GetTokenInfo(slot);
+   
+      // Getting info about Mechanism
+      var mechs = pkcs11.C_GetMechanismList(slot);
+      var mech_info = pkcs11.C_GetMechanismInfo(slot, mechs[0]);
+   
+      var session = pkcs11.C_OpenSession(slot, pkcs11js.CKF_RW_SESSION | pkcs11js.CKF_SERIAL_SESSION);
+   
+      // Getting info about Session
+      var info = pkcs11.C_GetSessionInfo(session);
+   
       if(args[0].indexOf('open-eid:') == 0 || args[0].indexOf('open-eid-read:') == 0) {  
         var result = '';
         try { var result = execSync("osascript -e 'tell app \"System Events\" to display dialog \"" + args[0].substring(args[0].indexOf(':') + 1) + " wants to access your eID card content.\" with title \"Open-eID\" with icon caution'").toString(); } catch(e) { result = ''; }

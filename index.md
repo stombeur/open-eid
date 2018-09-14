@@ -44,13 +44,13 @@ on the Chrome Web Store and
 on the Firefox Web Stoe
 
 You can test the extension on the 
-[following page](https://michael79bxl.github.io/open-eid/src/chrome_test.html)
+[following page](https://michael79bxl.github.io/open-eid/src/extension_test.html)
 
 ## Status
 
 This is a pre-release version 0.1 with the following features
 
-- Read eID card content using URL or Chrome extension
+- Read eID card content using URL or Web extension
 
 The app has been tested on Windows and Mac OS with belgian e-ID cards.
 

@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Open-eID Chrome Extension Demo</title>
+<title>Open-eID Web Extension Demo</title>
 </head>
 <body>
 <style content="text/css">
@@ -20,7 +20,7 @@ window.localStorage.setItem('open-eid', '');
 
 //-->
 </script>
-<a href="javascript:window.postMessage({url: 'open-eid-read:'}, '*');" onclick="
+<a href="javascript:window.postMessage({url: 'open-eid:'}, '*');" onclick="
 
 window.eidInterval = setInterval(function() {
   console.log('Wait for Open-eID result...');
@@ -46,7 +46,7 @@ window.eidInterval = setInterval(function() {
   }
 }, 1000);
 
-">Chrome Extension Demo</a>
+">Web Extension Demo</a>
 <hr />
 </body>
 </html>
