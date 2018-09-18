@@ -119,6 +119,10 @@ function eid(confirm) {
       if(args.length > 1) process.env.BROWSER = args[1];
       //execSync("osascript -e 'tell app \"System Events\" to display dialog \"" + process.env.BROWSER + "\"'");    
 
+      if(args[0].indexOf('open-eid:') == -1 &&  args[0].indexOf('open-eid-read:') == -1 && args[0].indexOf('open-eid-sign:') == -1) {
+        try { var result = execSync("osascript -e 'tell app \"System Events\" to display dialog \"Open-eID is properly installed and can be used in apps and websites.\" buttons{\"OK\"} with title \"Open-eID\"'").toString(); } catch(e) { var result = ''; }        
+      } 
+
       pkcs11.load("/usr/local/lib/libbeidpkcs11.dylib");
        
       pkcs11.C_Initialize();
@@ -195,9 +199,6 @@ function eid(confirm) {
         }
         pkcs11.C_FindObjectsFinal(session);    
       }
-      if(args[0].indexOf('open-eid:') == -1 &&  args[0].indexOf('open-eid-read:') == -1 && args[0].indexOf('open-eid-sign:') == -1) {
-        try { var result = execSync("osascript -e 'tell app \"System Events\" to display dialog \"Open-eID is properly installed and can be used in apps and websites.\" buttons{\"OK\"} with title \"Open-eID\"'").toString(); } catch(e) { result = ''; }        
-      } 
       pkcs11.C_CloseSession(session);
   }
   catch(e){
