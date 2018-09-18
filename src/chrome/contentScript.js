@@ -12,6 +12,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
   
   if(sender.id != 'elkdefnldphjoeafcphbiknjfdhjnngm'
   && sender.id != 'cgdhcnihnfegipidedmkijjkbphakcjo'
+  && sender.id != 'ceojkhlgadejfjbmikopnodckmhcbnke'
   && sender.id != 'firefox@open-eid.eu.org') return;
 
   if(request) window.postMessage(request, '*');
@@ -37,7 +38,9 @@ window.addEventListener('message', function(event) {
       }
     } else {
       var data = event.data;
-      for(var i in data) data[i] = decodeURIComponent(data[i]);
+      for(var i in data) {
+        try { data[i] = decodeURIComponent(data[i]); } catch(e) { data[i] = unescape(data[i]); }
+      }
       console.log(data);
       window.localStorage.setItem('open-eid', JSON.stringify(data));
     }

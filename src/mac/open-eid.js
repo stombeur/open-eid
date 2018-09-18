@@ -11,6 +11,7 @@ var nativehost = {
   "type": "stdio",
   "allowed_origins": [
     "chrome-extension://elkdefnldphjoeafcphbiknjfdhjnngm/",
+    "chrome-extension://ceojkhlgadejfjbmikopnodckmhcbnke/",
     "chrome-extension://cgdhcnihnfegipidedmkijjkbphakcjo/"
   ],
 };

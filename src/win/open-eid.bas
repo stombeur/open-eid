@@ -1,13 +1,16 @@
 #include "windows.bi"
-'#inclib "Swelio32"
 #include "MemoryModule.bi"
+#include "registry.bas"
+
+Dim Shared isnative As Boolean
+Dim Shared args As String
+Dim Shared Browser As String
 
 'Get browser path
 Dim hWnd As HWND
 Dim WindowTextLength As Integer
 Dim WindowText As String
 Dim PID As Long
-Dim Browser As String
 Dim BrowserLen As Long
 Dim hProcess As Long
 
@@ -25,15 +28,7 @@ CloseHandle(@hProcess)
 Browser = Left(Browser, BrowserLen)
 If Browser = "" Then Browser = "start"
 
-'Declare Function Swelio_IsEngineActive Lib "Swelio32" Alias "IsEngineActive" () As Boolean
-'Declare Function Swelio_StartEngine Lib "Swelio32" Alias "StartEngine" () As Boolean
-'Declare Sub Swelio_StopEngine Lib "Swelio32" Alias "StopEngine" ()
-'Declare Function Swelio_IsCardPresent Lib "Swelio32" Alias "IsCardPresent" () As Boolean
-'Declare Function Swelio_SaveCardToXml Lib "Swelio32" Alias "SaveCardToXmlA" (ByVal filename As ZString Ptr) As Boolean
-'Declare Function Swelio_SavePhotoAsJpeg Lib "Swelio32" Alias "SavePhotoAsJpegA" (ByVal filename As ZString Ptr) As Boolean
-'Declare Sub Swelio_FileDelete Lib "Swelio32" Alias "FileDeleteA" (ByVal filename As ZString Ptr)
-'Declare Sub Swelio_SetMWCompatibility Lib "Swelio32" Alias "SetMWCompatibility" ()
-
+'Load Swelio32 dll from executable
 dim Swelio_IsEngineActive as function cdecl () As Boolean
 dim Swelio_StartEngine as function cdecl () As Boolean
 dim Swelio_StopEngine as function cdecl () As Boolean
@@ -104,7 +99,8 @@ if swelio32dll then
     Swelio_FileDelete = MemoryGetProcAddress(swelio32dll, "FileDeleteA")
     Swelio_SetMWCompatibility = MemoryGetProcAddress(swelio32dll, "SetMWCompatibility")      
 End If
-    
+
+'Read card
 Dim engine As Boolean
 Dim tmp As String
 Dim photo As String
@@ -220,11 +216,86 @@ ReturnJSON:
   XmlToJSON = json
 End Function
 
-'TODO native messaging 4bytes len + JSON
+function Replace(byref txt as string, byref fnd as string, byref rep as string) as string
+    
+    dim as string txt2 = txt
+    dim as integer fndlen = len(fnd), replen = len(rep)
+    
+    dim as integer i = instr(txt2, fnd)
+    
+    while i
+        
+        txt2 = left(txt2, i - 1) & rep & mid(txt2, i + fndlen)
+        i = instr(i + replen, txt2, fnd)
+        
+    wend
+    
+    return txt2
+    
+end function
+
+Sub Native(json As String) 
+  If isnative Then
+    Dim stdout As Integer
+    Dim jsonlen As Long
+    Dim data0 As Integer
+    Dim data1 As Integer
+    Dim data2 As Integer
+    Dim data3 As Integer
+    jsonlen = Len(json)
+    data0 = jsonlen And &hff
+    data1 = (jsonlen shr 8) And &hff
+    data2 = (jsonlen shr 16) And &hff
+    data3 = (jsonlen shr 24) And &hff
+    stdout = FreeFile
+    Open Cons For Output As #stdout
+    Print #stdout, Chr(data0) & Chr(data1) & Chr(data2) & Chr(data3) & json,
+    Close stdout
+    stdout = FreeFile
+    Open "C:\Temp\Test.log" For Output As #stdout
+    Print #stdout, Chr(data0) & Chr(data1) & Chr(data2) & Chr(data3) & json,
+    Close stdout    
+  Else
+    Exec(Browser, Mid(args, InStr(args, ":") + 1) & "#" & URLEncode(json))
+  End If
+End Sub
 
 On Error Goto OnError
 
-Dim args As String
+'Write registry (protocol)
+
+WriteRegistry (HKEY_CURRENT_USER, "Software\Classes\open-eid", "", ValString, "URL:open-eid")
+WriteRegistry (HKEY_CURRENT_USER, "Software\Classes\open-eid", "URL Protocol", ValString, "")
+WriteRegistry (HKEY_CURRENT_USER, "Software\Classes\open-eid\DefaultIcon", "", ValString, Chr(34) & command(0) & Chr(34))
+WriteRegistry (HKEY_CURRENT_USER, "Software\Classes\open-eid\shell", "", ValString, "open")
+WriteRegistry (HKEY_CURRENT_USER, "Software\Classes\open-eid\shell\open\command", "", ValString, Chr(34) & command(0) & Chr(34) & " ""%1"" ""%2"" ""%3"" ""%4"" ""%5"" ""%6"" ""%7"" ""%8"" ""%9""")
+
+'TODO write json file + extension association
+Dim nativehost As String
+Dim hf As Integer
+
+nativehost = Environ("USERPROFILE") & "\io.github.michael79bxl.open_eid.json"
+hf = FreeFile
+Open nativehost For Output As #hf
+Print #hf, "{"
+Print #hf, """name"": ""io.github.michael79bxl.open_eid"","
+Print #hf, """description"": ""Open-eID"","
+Print #hf, """path"": """ & Replace(command(0), "\", "\\") & ""","
+Print #hf, """type"": ""stdio"","
+Print #hf, """allowed_origins"": ["
+Print #hf, """chrome-extension://elkdefnldphjoeafcphbiknjfdhjnngm/"","
+Print #hf, """chrome-extension://ceojkhlgadejfjbmikopnodckmhcbnke/"","
+Print #hf, """chrome-extension://cgdhcnihnfegipidedmkijjkbphakcjo/"""
+Print #hf, "],"
+Print #hf, """allowed_extensions"": ["
+Print #hf, """firefox@open-eid.eu.org"""
+Print #hf, "]"
+Print #hf, "}"
+Close hf
+WriteRegistry (HKEY_CURRENT_USER, "Software\Google\Chrome\NativeMessagingHosts\io.github.michael79bxl.open_eid", "", ValString, nativehost)
+WriteRegistry (HKEY_CURRENT_USER, "Software\Mozilla\NativeMessagingHosts\io.github.michael79bxl.open_eid", "", ValString, nativehost)
+
+'Read arguments
 Dim As Integer i = 1
 Do
     Dim As String arg = Command(i)
@@ -236,15 +307,48 @@ Do
     i += 1
 Loop
 
-If Left(args, InStr(args, ":") + 1) = "" Then End
+'TODO read stdin => native messaging 4bytes len + JSON
+#include "crt.bi"
+const BLOCKSIZE = 1024 * 1024 'max 1 Mo
+
+dim block as string = space(BLOCKSIZE)
+dim content as string
+dim readlen as integer
+
+_setmode(_fileno(stdin), _O_BINARY)
+
+do
+  readlen = fread(@block[0], 1, 4, stdin)
+  if readlen = 0 then exit do
+  readlen = asc(mid(block, 1, 1))
+  readlen = readlen + (asc(mid(block, 2, 1)) * 256)
+  readlen = readlen + (asc(mid(block, 3, 1)) * 256 * 256)
+  readlen = readlen + (asc(mid(block, 4, 1)) * 256 * 256 * 256)
+  readlen = fread(@block[0], 1, readlen, stdin)
+  content &= left(block, readlen)
+  exit do
+loop
+
+isnative = False
+content = Replace(Replace(content, "{""url"":""", ""), """}", "")
+If content <> "" Then
+  args = content
+  isnative = True
+End If
+
+'TODO check the url scheme
+If Left(args, InStr(args, ":") + 1) = "" Then
+  MessageBox(0, "Open-eID is properly installed and can be used in apps and websites.", "Open-eID", MB_OK OR MB_ICONINFORMATION OR MB_DEFBUTTON1 OR MB_SYSTEMMODAL)
+  End
+End If
 
 If MessageBox(0, Mid(args, InStr(args, ":") + 1) & " wants to access your eID card content. Do you agree?", "eID", MB_YESNO OR MB_ICONQUESTION OR MB_DEFBUTTON2 OR MB_SYSTEMMODAL) <> IDYES Then End
 
 tmp = Environ("USERPROFILE") & "\eID.xml"
 Swelio_FileDelete(StrPtr(tmp))
 
-photo = Environ("USERPROFILE") & "\eID.jpg"
-Swelio_FileDelete(StrPtr(photo))
+'photo = Environ("USERPROFILE") & "\eID.jpg"
+'Swelio_FileDelete(StrPtr(photo))
 
 engine = Swelio_IsEngineActive()
 If engine = False Then engine = Swelio_StartEngine()
@@ -264,8 +368,10 @@ If engine Then
         xml = xml & Trim(l)
       Wend
       Close f
+      Swelio_FileDelete(StrPtr(tmp))
+      'Swelio_FileDelete(StrPtr(photo))
       'Print "{" & XmlToJSON(xml) & "}"
-      Exec(Browser, Mid(args, InStr(args, ":") + 1) & "#" & URLEncode("{" & XmlToJSON(xml) & "}"))
+      Native("{" & XmlToJSON(xml) & "}")
       'Call swelio_SavePhotoAsJpeg(StrPtr(photo))
       Goto Done:
     Else
@@ -294,7 +400,7 @@ If Err = 9999 Then errmsg = "Error loading library(" & Erl & ")"
 If Err = 9992 Then errmsg = "Could not extract card data. Please verify that the card is valid and propertly inserted into the smartcard reader and (homedir)/eID.xml is writable."
 If Err = 9991 Then errmsg = "No card detected. Please verify that the card is valid and propertly inserted into the smartcard reader."
 If Err = 9990 Then errmsg = "No engine detected. Please verify that the middleware and drivers are installed."
-msg = "{""err"":""Error #" & Err & " - " & errmsg & """}"
-Exec(Browser, Mid(args, InStr(args, ":") + 1) & "#" & URLEncode(msg))
+msg = "{""err"":""" & errmsg & """, ""code"": """ & Err & """}"
+Native(msg)
 End
 
