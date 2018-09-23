@@ -21,9 +21,9 @@ Source is available [here](https://github.com/michael79bxl/open-eid/tree/master/
 
 The native app can be called using a special `open-eid:` URL scheme followed by the URL used to redirect e-ID data.
 
-Sample: `open-eid:https://michael79bxl.github.io/open-eid/src/url_test.html`
+Sample: `open-eid:https://e-id.eu.org/src/url_test.html`
 
-Test this sample [here](open-eid:https://michael79bxl.github.io/open-eid/src/url_test.html)
+Test this sample [here](open-eid:https://e-id.eu.org/src/url_test.html)
 
 The data is sent to the redirection URL fragment as an URL encoded JSON object after `#`.
 
@@ -44,7 +44,7 @@ on the Chrome Web Store and
 on the Firefox Web Stoe
 
 You can test the extension on the 
-[following page](https://michael79bxl.github.io/open-eid/src/extension_test.html)
+[following page](https://e-id.eu.org/src/extension_test.html)
 
 ## Status
 
