@@ -34,15 +34,17 @@ var openEID = {
       console.log('Wait for result...');
       var result = window.localStorage.getItem('openEID');
       if(typeof result != 'undefined' && result != null) {
-        window.localStorage.setItem('openEID', '');
-        var json = eval('(' + result + ')');
-        if(typeof json == 'object') {
-          for(var i in json) {
-            try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
+        if(result != '') {
+          window.localStorage.setItem('openEID', '');
+          var json = eval('(' + result + ')');
+          if(typeof json == 'object') {
+            for(var i in json) {
+              try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
+            }
+            clearInterval(openEID.readInterval);
+            openEID.readInterval = null;
+            openEID.readCallback(json);          
           }
-          clearInterval(openEID.readInterval);
-          openEID.readInterval = null;
-          openEID.readCallback(json);          
         }
       }
     }, 1000);
