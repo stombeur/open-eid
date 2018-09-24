@@ -48,3 +48,4 @@ window.addEventListener('message', function(event) {
   
 }, false);
 
+window.openEIDInstalled = true;
