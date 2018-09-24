@@ -36,7 +36,10 @@ var openEID = {
           }
         }
       }
-    }, 1000);        
+    }, 1000);       
+    setTimeout(function() {
+      window.open(new String(location) + '#' + new Date(), '_self');
+    }, 1000); 
     if('openEIDInstalled' in window) {
       if(window.openEIDInstalled) { // extension
         window.postMessage({url: 'open-eid:'}, '*');
