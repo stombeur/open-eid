@@ -28,7 +28,13 @@ The easiest thing to do to capture the data from the origin tab/window is to sav
 
 The Web Extension allows you to read the card data without opening a new tab/window but requires users to install both the app and the extension.
 
-*A JavaScript helper script will be available soon*
+The easiest way to use Open-eID is to use the helper function. Just add the following code to `head` section of your HTML page.
+
+`<script type="text/javascript" src="https://e-id.eu.org/release/Open-eID.js"></script>`
+
+You can the call the `openEID.read` function with a callback function. The callback function as a single parameter as on object container decoded card data.
+
+`openEID.read(function(result) { console.log(result); })`
 
 ## Building
 
