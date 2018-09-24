@@ -26,14 +26,14 @@ var openEID = {
         if(result != '') {
           window.localStorage.setItem('open-eid', '');
           var json = eval('(' + result + ')');
-          if(typeof json == 'object') {
+          if(typeof json == 'object') {    
+            document.body.focus();        
             for(var i in json) {
               try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
             }
             clearInterval(openEID.readInterval);
             openEID.readInterval = null;
             openEID.readCallback(json);   
-            window.focus();       
           }
         }
       }

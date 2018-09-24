@@ -15,6 +15,7 @@ tt {
 }
 </style>
 <a href="javascript:;" onclick="openEID.read(function(json) {
+  document.body.focus();
   var tt = document.createElement('tt');
   tt.innerHTML = '{';
   document.body.appendChild(tt);
@@ -25,8 +26,7 @@ tt {
   }
   var tt = document.createElement('tt');
   tt.innerHTML = '}';
-  document.body.appendChild(tt);
-  window.focus();         
+  document.body.appendChild(tt);        
 });">Click here to test the Helper function</a>
 <hr />
 </body>
