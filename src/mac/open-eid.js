@@ -216,7 +216,7 @@ function eid(confirm) {
       pkcs11.C_CloseSession(session);
   }
   catch(e){
-      obj = {err: JSON.stringify(e)};
+      obj = {err: e.message};
       native(obj);
       console.error(e);
   }
