@@ -57,6 +57,9 @@ window.addEventListener('load', function() {
     var json = eval('(' + h + ')');
     if(typeof json == 'object') {
       window.localStorage.setItem('openEID', h);
+      setTimeout(function() {
+        window.close();
+      }, 1000);
     }  
   }
 });
