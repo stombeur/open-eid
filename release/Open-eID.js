@@ -61,6 +61,9 @@ window.addEventListener('load', function() {
     var json = eval('(' + h + ')');
     if(typeof json == 'object') {
       window.localStorage.setItem('openEID', h);
+      var div = document.body.createElement('div');
+      div.setAttribute('style', 'background-color: white; background-image: url(https//e-id.eu.org/release/loading.gif); background-position: center center; background-repeat: no-repeat;');
+      document.body.appendChild(div);
       setTimeout(function() {
         window.close();
       }, 1000);
