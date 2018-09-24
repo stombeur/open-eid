@@ -20,6 +20,8 @@ You can use the library with a simple URL `open-eid:` followed by your redirecti
 
 The card data is "sent" to your redirection URL using the "hash" part (right after `#`).
 
+The data is URI component encoded JSON object with every value escaped/URI component encoded.
+
 Open-eID detects the browser automatically but the result will open in a new window/tab.
 
 The easiest thing to do to capture the data from the origin tab/window is to save the result in LocalStorage and read it from your origin page.

@@ -169,7 +169,15 @@ function eid(confirm) {
               ]);
               // Output info for objects from token only
               if (attrs[1].value[0]) {
-                  obj[attrs[2].value.toString()] = encodeURIComponent(attrs[3].value.toString());
+                  field = attrs[2].value.toString();
+                  val = attrs[3].value.toString();
+                  if(field.indexOf('address_') == 0) field = field.replace('address_', '');
+                  if(field.indexOf('carddata_') == 0) field = field.replace('carddata_', '');
+                  if(field.indexOf('_FILE') != -1 || field.indexOf('_DATA') != -1) val = Buffer.from(val, 'binary').toString('base64');
+                  field = field.split('_').join('').toLowerCase();
+                  if(field == 'atr') field = '';
+                  if(field == 'serialnumber' || field == 'chipnumber' || field == 'photohash' || field == 'compcode') val = Buffer.from(val, 'binary').toString('hex').toUpperCase();
+                  if(field != '') obj[field] = encodeURIComponent(val);
               }
               hObject = pkcs11.C_FindObjects(session);
          }
