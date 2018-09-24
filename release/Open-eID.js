@@ -39,7 +39,7 @@ var openEID = {
     }, 1000);        
     if('openEIDInstalled' in window) {
       if(window.openEIDInstalled) { // extension
-        window.postMessage({url: 'open-eid:'}, '*'); 
+        window.postMessage({url: 'open-eid:'}, '*');
       } else {
         location = 'open-eid:' + new String(location);
       }

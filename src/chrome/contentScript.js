@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
   console.log('Extension');
   console.log(request, sender);
   
-  // chrome dev = elkdefnldphjoeafcphbiknjfdhjnngm
+  // chrome dev = elkdefnldphjoeafcphbiknjfdhjnngm & ceojkhlgadejfjbmikopnodckmhcbnke
   // chrome webstore = cgdhcnihnfegipidedmkijjkbphakcjo  
   // firefox = firefox@open-eid.eu.org
   
@@ -48,4 +48,7 @@ window.addEventListener('message', function(event) {
   
 }, false);
 
-window.openEIDInstalled = true;
+var script = document.createElement('script');
+script.textContent = 'window.openEIDInstalled = true;';
+(document.head||document.documentElement).appendChild(script);
+script.remove();
