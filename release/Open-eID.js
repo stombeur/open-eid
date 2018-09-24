@@ -67,7 +67,7 @@ window.addEventListener('load', function() {
       document.body.appendChild(div);
       setTimeout(function() {
         window.close();
-      }, 1000);
+      }, 2000);
     }  
   }
 });
