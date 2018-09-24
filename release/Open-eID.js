@@ -34,6 +34,7 @@ var openEID = {
             clearInterval(openEID.readInterval);
             openEID.readInterval = null;
             openEID.readCallback(json);
+            window.postMessage('focus', '*');
           }
         }
       }
@@ -68,4 +69,8 @@ window.addEventListener('load', function() {
       }, 2000);
     }  
   }
+});
+
+window.addEventListener('message', function(event) {
+  console.log(event);
 });
