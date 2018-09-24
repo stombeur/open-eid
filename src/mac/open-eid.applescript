@@ -13,20 +13,21 @@ on open location this_URL
 	tell application "Finder"
 		set current_path to (POSIX path of (path to me))
 	end tell
+	if secondFrontmost is "Safari" then
+		tell front window of application "Safari"
+			set currentTab to index of current tab
+		end tell
+	end if
 	if secondFrontmost is "Google Chrome" then
 		tell application "Google Chrome"
 			make new window
 			activate
 		end tell
 	end if
-	if secondFrontmost is "Safari" then
-		tell front window of application "Safari"
-			set currentTab to index of current tab
-		end tell
-	end if
 	do shell script current_path & "Contents/MacOS/open-eid " & this_URL & " \"" & secondFrontmost & "\""
 	if secondFrontmost is "Safari" then
 		tell front window of application "Safari"
+			delay 2
 			set current tab to tab currentTab
 		end tell
 	end if
