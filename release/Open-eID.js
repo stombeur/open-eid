@@ -7,6 +7,7 @@ var openEID = {
   read: function(callback) {
     if('openEIDInstalled' in window) {
       if(window.openEIDInstalled) { // extension
+      
       } else {
         openEID.readWithURL(callback);
       }
@@ -32,10 +33,10 @@ var openEID = {
         return; 
       }
       console.log('Wait for result...');
-      var result = window.localStorage.getItem('openEID');
+      var result = window.localStorage.getItem('open-eid');
       if(typeof result != 'undefined' && result != null) {
         if(result != '') {
-          window.localStorage.setItem('openEID', '');
+          window.localStorage.setItem('open-eid', '');
           var json = eval('(' + result + ')');
           if(typeof json == 'object') {
             for(var i in json) {
@@ -54,13 +55,13 @@ var openEID = {
 
 window.openEID = openEID;
 window.addEventListener('load', function() {
-  window.localStorage.setItem('openEID', '');
+  window.localStorage.setItem('open-eid', '');
   var h = new String(location.hash).substring(1);
   try { h = decodeURIComponent(h); } catch(e) { h = unescape(h); }
   if(h != '') {
     var json = eval('(' + h + ')');
     if(typeof json == 'object') {
-      window.localStorage.setItem('openEID', h);
+      window.localStorage.setItem('open-eid', h);
       document.body.style.overflow = 'hidden';
       var div = document.createElement('div');
       div.setAttribute('style', 'position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: white; background-image: url(https//e-id.eu.org/release/loading.gif); background-position: center center; background-repeat: no-repeat;');
