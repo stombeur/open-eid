@@ -15,9 +15,7 @@ var nativehost = {
     "chrome-extension://cgdhcnihnfegipidedmkijjkbphakcjo/"
   ],
 };
-//fs.createReadStream('io.github.michael79bxl.node_eid.json').pipe(fs.createWriteStream(homedir + '/Library/Application Support/Google/Chrome/NativeMessagingHosts/io.github.michael79bxl.node_eid.json'));
 fs.writeFile(homedir + '/Library/Application Support/Google/Chrome/NativeMessagingHosts/io.github.michael79bxl.open_eid.json', JSON.stringify(nativehost), function(err) {});
-//todo create /Mozilla/NativeMessagingHosts dir
 delete nativehost["allowed_origins"];
 nativehost["allowed_extensions"] = [
   "firefox@open-eid.eu.org"
@@ -71,10 +69,10 @@ function native(obj) {
      data[0] = l & 0xff;
      data[1] = (l >>> 8) & 0xff;
      data[2] = (l >>> 16) & 0xff;
-     data[3] = (l >>> 24) & 0xff;     
-     //fs.writeFile(homedir + "/eID.json", json, function(err) {});
+     data[3] = (l >>> 24) & 0xff;
+     //fs.writeFile(homedir + "/eID.json", data.join(', ') + json, function(err) {});
      if(isnative) {
-       process.stdout.write(String.fromCharCode(data[0]) + String.fromCharCode(data[1]) + String.fromCharCode(data[2]) + String.fromCharCode(data[3]))
+       process.stdout.write(String.fromCharCode(data[0]) + String.fromCharCode(data[1]) + String.fromCharCode(data[2]) + String.fromCharCode(data[3]));
        process.stdout.setEncoding('utf8');       
        process.stdout.write(json);  
      } else {
@@ -173,11 +171,19 @@ function eid(confirm) {
                   val = attrs[3].value.toString();
                   if(field.indexOf('address_') == 0) field = field.replace('address_', '');
                   if(field.indexOf('carddata_') == 0) field = field.replace('carddata_', '');
-                  if(field.indexOf('_FILE') != -1 || field.indexOf('_DATA') != -1) val = Buffer.from(val, 'binary').toString('base64');
+                  if(field.indexOf('_FILE') != -1 || field.indexOf('_DATA') != -1) {
+                    val = Buffer.from(val, 'binary').toString('base64');
+                  } else {
+                    field = field.split('_').join('').toLowerCase();
+                    if(field == 'serialnumber' || field == 'chipnumber' || field == 'photohash' || field == 'compcode') {
+                      val = Buffer.from(val, 'binary').toString('hex').toUpperCase();
+                    } else {
+                      val = encodeURIComponent(val);
+                    }
+                  }
                   field = field.split('_').join('').toLowerCase();
                   if(field == 'atr') field = '';
-                  if(field == 'serialnumber' || field == 'chipnumber' || field == 'photohash' || field == 'compcode') val = Buffer.from(val, 'binary').toString('hex').toUpperCase();
-                  if(field != '') obj[field] = encodeURIComponent(val);
+                  if(field != '') obj[field] = val;
               }
               hObject = pkcs11.C_FindObjects(session);
          }

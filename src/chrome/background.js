@@ -13,7 +13,11 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
       
       console.log(response);
       // send result to content script
-      chrome.tabs.sendMessage(sender.tab.id, response);
+      if(typeof response != 'undefined' && response != null) {
+        chrome.tabs.sendMessage(sender.tab.id, response);
+      } else {
+        chrome.tabs.sendMessage(sender.tab.id, {'err': 'No result from extension'});
+      }
     }
   );   
 });
