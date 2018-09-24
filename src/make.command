@@ -28,3 +28,6 @@ sleep 2
 sync
 hdiutil detach "${DEVICE}"
 hdiutil convert "../../build/Open-eID.dmg" -format UDZO -imagekey zlib-level=9 -o "../../release/Open-eID.dmg"
+cd "`dirname $0`"
+cd mac
+rm Applications
