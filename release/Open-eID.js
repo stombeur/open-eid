@@ -32,7 +32,8 @@ var openEID = {
             }
             clearInterval(openEID.readInterval);
             openEID.readInterval = null;
-            openEID.readCallback(json);          
+            openEID.readCallback(json);   
+            document.body.focus();       
           }
         }
       }
