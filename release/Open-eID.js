@@ -52,6 +52,7 @@ var openEID = {
 
 window.openEID = openEID;
 window.addEventListener('load', function() {
+  window.localStorage.setItem('openEID', '');
   var h = new String(location.hash).substring(1);
   try { h = decodeURIComponent(h); } catch(e) { h = unescape(h); }
   if(h != '') {
