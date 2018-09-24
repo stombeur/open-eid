@@ -27,7 +27,6 @@ var openEID = {
           window.localStorage.setItem('open-eid', '');
           var json = eval('(' + result + ')');
           if(typeof json == 'object') {    
-            document.body.focus();        
             for(var i in json) {
               try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
             }
@@ -42,9 +41,11 @@ var openEID = {
       if(window.openEIDInstalled) { // extension
         window.postMessage({url: 'open-eid:'}, '*');
       } else {
+        setTimeout(function() { document.body.focus(); }, 2000);
         location = 'open-eid:' + new String(location);
       }
     } else {
+      setTimeout(function() { document.body.focus(); }, 2000);
       location = 'open-eid:' + new String(location);
     }
   }
