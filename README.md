@@ -16,7 +16,7 @@ The app has been tested on Windows and Mac OS with belgian e-ID cards.
 
 ## Using
 
-You can use the library with a simple URL `open-eid:` followed by your redirection URL.
+You can use Open-eID with a simple URL starting with `open-eid:` followed by your redirection URL.
 
 The card data is "sent" to your redirection URL using the "hash" part (right after `#`).
 
