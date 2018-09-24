@@ -27,6 +27,7 @@ var openEID = {
           window.localStorage.setItem('open-eid', '');
           var json = eval('(' + result + ')');
           if(typeof json == 'object') {  
+            window.open(new String(location) + '#' + new Date(), '_self');          
             for(var i in json) {
               try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
             }
@@ -37,9 +38,6 @@ var openEID = {
         }
       }
     }, 1000);       
-    setTimeout(function() {
-      window.open(new String(location) + '#' + new Date(), '_self');
-    }, 1000); 
     if('openEIDInstalled' in window) {
       if(window.openEIDInstalled) { // extension
         window.postMessage({url: 'open-eid:'}, '*');
