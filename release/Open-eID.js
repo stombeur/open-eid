@@ -33,7 +33,7 @@ var openEID = {
             clearInterval(openEID.readInterval);
             openEID.readInterval = null;
             openEID.readCallback(json);   
-            document.body.focus();       
+            window.focus();       
           }
         }
       }
