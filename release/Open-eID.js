@@ -20,6 +20,7 @@ var openEID = {
         openEID.readTicks = 0;       
         return; 
       }
+      document.body.focus();
       console.log('Wait for result...');
       var result = window.localStorage.getItem('open-eid');
       if(typeof result != 'undefined' && result != null) {
@@ -41,11 +42,9 @@ var openEID = {
       if(window.openEIDInstalled) { // extension
         window.postMessage({url: 'open-eid:'}, '*');
       } else {
-        setTimeout(function() { document.body.focus(); }, 2000);
         location = 'open-eid:' + new String(location);
       }
     } else {
-      setTimeout(function() { document.body.focus(); }, 2000);
       location = 'open-eid:' + new String(location);
     }
   }
