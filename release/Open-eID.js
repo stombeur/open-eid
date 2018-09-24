@@ -60,7 +60,7 @@ window.addEventListener('load', function() {
       window.localStorage.setItem('open-eid', h);
       document.body.style.overflow = 'hidden';
       var div = document.createElement('div');
-      div.setAttribute('style', 'position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: white; background-image: url(https//e-id.eu.org/release/loading.gif); background-position: center center; background-repeat: no-repeat;');
+      div.setAttribute('style', 'position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: white; background-image: url(https://e-id.eu.org/release/loading.gif); background-position: center center; background-repeat: no-repeat;');
       document.body.appendChild(div);
       setTimeout(function() {
         window.close();
