@@ -5,6 +5,7 @@ var openEID = {
   timeout: 30,
   
   read: function(callback) {
+    window.blur();
     if(openEID.readInterval != null) {
       clearInterval(openEID.readInterval);
       openEID.readInterval = null;
@@ -20,14 +21,14 @@ var openEID = {
         openEID.readTicks = 0;       
         return; 
       }
-      document.body.focus();
       console.log('Wait for result...');
       var result = window.localStorage.getItem('open-eid');
       if(typeof result != 'undefined' && result != null) {
         if(result != '') {
           window.localStorage.setItem('open-eid', '');
           var json = eval('(' + result + ')');
-          if(typeof json == 'object') {    
+          if(typeof json == 'object') {  
+            window.focus();  
             for(var i in json) {
               try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
             }
