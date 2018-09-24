@@ -25,8 +25,9 @@ var openEID = {
       if(typeof result != 'undefined' && result != null) {
         if(result != '') {
           window.localStorage.setItem('open-eid', '');
-          var json = eval('(' + result + ')');
-          if(typeof json == 'object') {  
+          var json = null;
+          try { json = eval('(' + result + ')'); } catch(e) { json = null; }
+          if(typeof json == 'object' && json != null) {  
             window.open(new String(location) + '#' + new Date().getTime(), '_self');          
             for(var i in json) {
               try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
