@@ -5,18 +5,6 @@ var openEID = {
   timeout: 30,
   
   read: function(callback) {
-    if('openEIDInstalled' in window) {
-      if(window.openEIDInstalled) { // extension
-      
-      } else {
-        openEID.readWithURL(callback);
-      }
-    } else {
-      openEID.readWithURL(callback);
-    }
-  },
-  
-  readWithURL: function(callback) {
     if(openEID.readInterval != null) {
       clearInterval(openEID.readInterval);
       openEID.readInterval = null;
@@ -48,8 +36,16 @@ var openEID = {
           }
         }
       }
-    }, 1000);
-    location = 'open-eid:' + new String(location);
+    }, 1000);        
+    if('openEIDInstalled' in window) {
+      if(window.openEIDInstalled) { // extension
+        window.postMessage({url: 'open-eid:'}, '*'); 
+      } else {
+        location = 'open-eid:' + new String(location);
+      }
+    } else {
+      location = 'open-eid:' + new String(location);
+    }
   }
 }
 
