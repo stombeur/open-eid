@@ -32,9 +32,14 @@ The easiest way to use Open-eID is to use the helper function. Just add the foll
 
 `<script type="text/javascript" src="https://e-id.eu.org/release/Open-eID.js"></script>`
 
-The `openEID.read` function can then be called with a callback function. The callback function as a single parameter as on object container decoded card data.
+The `openEID.read` function can then be called with a callback function.
+
+The callback function has a single parameter as an object containing decoded card data.
 
 `openEID.read(function(result) { console.log(result); })`
+
+You can test the helper function on the 
+[following page](https://e-id.eu.org/src/helper_test.html)
 
 ## Building
 
