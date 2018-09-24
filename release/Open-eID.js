@@ -34,6 +34,7 @@ var openEID = {
       console.log('Wait for result...');
       var result = window.localStorage.getItem('openEID');
       if(typeof result != 'undefined' && result != null) {
+        window.localStorage.removeItem('openEID');
         var json = eval('(' + result + ')');
         if(typeof json == 'object') {
           for(var i in json) {
