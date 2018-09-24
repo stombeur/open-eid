@@ -19,7 +19,17 @@ on open location this_URL
 			activate
 		end tell
 	end if
+	if secondFrontmost is "Safari" then
+		tell front window of application "Safari"
+			set currentTab to index of current tab
+		end tell
+	end if
 	do shell script current_path & "Contents/MacOS/open-eid " & this_URL & " \"" & secondFrontmost & "\""
+	if secondFrontmost is "Safari" then
+		tell front window of application "Safari"
+			set current tab to tab currentTab
+		end tell
+	end if
 end open location
 on run argv
 	tell application "Finder"
