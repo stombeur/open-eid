@@ -40,8 +40,8 @@ On Mac OS, the native app must be installed in /Applications
 The web extension is available
 [here](https://chrome.google.com/webstore/detail/open-eid/cgdhcnihnfegipidedmkijjkbphakcjo)
 on the Chrome Web Store and
-[here](https://addons.mozilla.org/fr/firefox/addon/open-eid/)
-on the Firefox Web Stoe
+[here](https://addons.mozilla.org/en/firefox/addon/open-eid/)
+on the Add-ons for Firefox Website
 
 You can test the extension on the 
 [following page](https://e-id.eu.org/src/extension_test.html)
