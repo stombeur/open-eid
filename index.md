@@ -44,6 +44,16 @@ on the Add-ons for Firefox Website
 You can test the extension on the 
 [following page](https://e-id.eu.org/src/extension_test.html)
 
+## Browser matrix
+
+|Browser|Native URL|Extension|Helper|
+|-------|:--------:|:-------:|:----:|
+|Chrome |   [X]    |   [X]   | [X]  |
+|Safari |   [X]    |   [ ]   | [X]  |
+|Firefox|   [ ]    |   [X]   | [X]  |
+|IE     |   [X]    |   [ ]   | [X]  |
+|Edge   |   [X]    |   [ ]   | [X]  |
+
 ## Status
 
 This is a pre-release version 0.1 with the following features
