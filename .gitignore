@@ -1,4 +1,6 @@
 .DS_Store
 tools/
 build/
+release/Open-eID.dmg
+release/Open-eID.exe
 src/mac/node_modules/
