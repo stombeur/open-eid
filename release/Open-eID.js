@@ -1,4 +1,6 @@
 var openEID = {
+  ffAlert: 'Firefox requires the app and the extension. Click to OK to be redirected to the plugin website to install it.',
+  ffURL: 'https://addons.mozilla.org/en/firefox/addon/open-eid/',
   readInterval: null,
   readCallback: null,
   readTicks: 0,
@@ -43,14 +45,14 @@ var openEID = {
         window.postMessage({url: 'open-eid:'}, '*');
       } else {
         if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-          alert('Firefox requires the app and the extension. Click to OK to be redirected to the plugin website to install it.');
+          if(confirm(openEID.ffAlert)) window.open(openEID.ffURL);
         } else {
           location = 'open-eid:' + new String(location);
         }
       }
     } else {
       if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-        alert('Firefox requires the app and the extension. Click to OK to be redirected to the plugin website to install it.');
+        if(confirm(openEID.ffAlert)) window.open(openEID.ffURL);
       } else {
         location = 'open-eid:' + new String(location);
       }
