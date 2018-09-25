@@ -42,10 +42,18 @@ var openEID = {
       if(window.openEIDInstalled) { // extension
         window.postMessage({url: 'open-eid:'}, '*');
       } else {
-        location = 'open-eid:' + new String(location);
+        if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+          alert('Firefox requires the app and the extension. Click to OK to be redirected to the plugin website to install it.');
+        } else {
+          location = 'open-eid:' + new String(location);
+        }
       }
     } else {
-      location = 'open-eid:' + new String(location);
+      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        alert('Firefox requires the app and the extension. Click to OK to be redirected to the plugin website to install it.');
+      } else {
+        location = 'open-eid:' + new String(location);
+      }
     }
   }
 }
