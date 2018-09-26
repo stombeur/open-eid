@@ -74,6 +74,7 @@ window.addEventListener('load', function() {
       div.setAttribute('style', 'position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: white; background-image: url(https://e-id.eu.org/release/loading.gif); background-position: center center; background-repeat: no-repeat;');
       document.body.appendChild(div);
       setTimeout(function() {
+        window.open('', '_self', '');
         window.close();
       }, 2000);
     }  

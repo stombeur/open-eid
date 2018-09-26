@@ -28,7 +28,7 @@ window.addEventListener('message', function(event) {
   // send request to extension
   if(typeof event.data == 'object') {
     if('url' in event.data) {
-      event.data.url = event.data.url + new String(event.source.location);
+      if(event.data.url.substring(event.data.url.indexOf(':') + 1) == '') event.data.url = event.data.url + new String(event.source.location);
       if(typeof browser != 'undefined' && browser != null) {
         console.log('Window: Firefox');
         browser.runtime.sendMessage(event.data);        
@@ -52,3 +52,20 @@ var script = document.createElement('script');
 script.textContent = 'window.openEIDInstalled = true;';
 (document.head||document.documentElement).appendChild(script);
 script.remove();
+
+// firefox URL handler
+if(typeof browser != 'undefined' && browser != null) {
+  window.addEventListener('load', function() {
+    var script = document.createElement('script');
+    script.setAttribute('type', 'text/javascript');
+    script.setAttribute('src', 'https://e-id.eu.org/release/Open-eID.js');
+    document.getElementsByTagName('head')[0].appendChild(script);
+    var links = document.getElementsByTagName('a');
+    for(var i = 0; i < links.length; i++) {
+      if(links[i].href.indexOf('open-eid:') == 0) {
+        links[i].setAttribute('onmouseup', 'window.openEID_link = this; window.openEID.read(function(json) { window.open(window.openEID_link.href.substring(9) + \'#\' + encodeURIComponent(JSON.stringify(json))); window.openEID_link = null; });');
+        links[i].setAttribute('onclick', 'return false;');
+      }
+    }
+  });
+}
