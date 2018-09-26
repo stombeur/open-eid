@@ -54,7 +54,7 @@ You can test the extension on the
 |IE      |&#x2714;  |         |&#x2714;|
 |Edge    |&#x2714;  |         |&#x2714;|
 
-*Native URL using Web Extension*
+* *Native URL using Web Extension*
 
 ## Status
 
