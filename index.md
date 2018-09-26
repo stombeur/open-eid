@@ -46,15 +46,15 @@ You can test the extension on the
 
 ## Browser matrix
 
-|Browser|Native URL|Extension| Helper |
-|-------|:--------:|:-------:|:-------:|
-|Chrome |&#x2714;  |&#x2714; |&#x2714;|
-|Safari |&#x2714;  |         |&#x2714;|
-|Firefox|&#x2714;* |&#x2714; |&#x2714;|
-|IE     |&#x2714;  |         |&#x2714;|
-|Edge   |&#x2714;  |         |&#x2714;|
+|Browser |Native URL|Extension| Helper |
+|--------|:--------:|:-------:|:------:|
+|Chrome  |&#x2714;  |&#x2714; |&#x2714;|
+|Safari  |&#x2714;  |         |&#x2714;|
+|Firefox*|&#x2714;  |&#x2714; |&#x2714;|
+|IE      |&#x2714;  |         |&#x2714;|
+|Edge    |&#x2714;  |         |&#x2714;|
 
-*using Web Extension*
+*Native URL using Web Extension*
 
 ## Status
 
