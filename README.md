@@ -49,15 +49,17 @@ To build open-eid you need the following tools:
 
 * FreeBasic compiler
 * Swelio library (Swelio32.dll)
-* 7zip command line
 
 ### Mac
 
 * NodeJS
+* pkg
+* pkcs11js
 
 ## References
 
 * https://www.freebasic.net/
 * https://github.com/perevoznyk/swelio-sdk/
 * https://nodejs.org/
+* https://www.npmjs.com/package/pkg/
 * https://github.com/PeculiarVentures/pkcs11js/
