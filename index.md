@@ -13,7 +13,7 @@ Source is available [here](https://github.com/michael79bxl/open-eid/tree/master/
 
 - Windows or Mac OS
 - Middleware (for Belgium, download [here](https://eid.belgium.be/)) and/or smartcard driver
-- Browser compatible with native URL or Web Native Messaging extension (Chrome, Firefox, Edge)
+- Browser compatible with native URL or Web Native Messaging extension (Chrome, Firefox, Opera)
 
 ## Native URL
 
