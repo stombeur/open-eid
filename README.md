@@ -59,6 +59,5 @@ To build open-eid you need the following tools:
 
 * https://www.freebasic.net/
 * https://github.com/perevoznyk/swelio-sdk/
-* https://www.7-zip.org/
 * https://nodejs.org/
 * https://github.com/PeculiarVentures/pkcs11js/
