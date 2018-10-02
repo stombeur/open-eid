@@ -15,12 +15,12 @@ var nativehost = {
     "chrome-extension://cgdhcnihnfegipidedmkijjkbphakcjo/"
   ],
 };
-fs.writeFile(homedir + '/Library/Application Support/Google/Chrome/NativeMessagingHosts/io.github.michael79bxl.open_eid.json', JSON.stringify(nativehost), function(err) {});
+fs.writeFileSync(homedir + '/Library/Application Support/Google/Chrome/NativeMessagingHosts/io.github.michael79bxl.open_eid.json', JSON.stringify(nativehost));
 delete nativehost["allowed_origins"];
 nativehost["allowed_extensions"] = [
   "firefox@open-eid.eu.org"
 ];
-fs.writeFile(homedir + '/Library/Application Support/Mozilla/NativeMessagingHosts/io.github.michael79bxl.open_eid.json', JSON.stringify(nativehost), function(err) {});
+fs.writeFileSync(homedir + '/Library/Application Support/Mozilla/NativeMessagingHosts/io.github.michael79bxl.open_eid.json', JSON.stringify(nativehost));
 
 process.stdin.setEncoding('utf8');
 
@@ -70,7 +70,6 @@ function native(obj) {
      data[1] = (l >>> 8) & 0xff;
      data[2] = (l >>> 16) & 0xff;
      data[3] = (l >>> 24) & 0xff;
-     //fs.writeFile(homedir + "/eID.json", data.join(', ') + json, function(err) {});
      if(isnative) {
        process.stdout.write(String.fromCharCode(data[0]) + String.fromCharCode(data[1]) + String.fromCharCode(data[2]) + String.fromCharCode(data[3]));
        process.stdout.setEncoding('utf8');       
@@ -191,7 +190,28 @@ function eid(confirm) {
          native(obj);
        }
      }
-     if(args[0].indexOf('open-eid-sign:') == 0) {       
+     if(args[0].indexOf('open-eid-sign:') == 0) {
+       fs.writeFileSync(homedir + '/data', 'Hello');       
+       pkcs11.C_DigestInit(session, { mechanism: pkcs11js.CKM_SHA256 });
+       pkcs11.C_DigestUpdate(session, new Buffer("Hello"));
+       var digest = pkcs11.C_DigestFinal(session, Buffer(256 / 8));
+       var header = 'Manifest-Version: 1.0\r\nCreated-By: 11 (Oracle Corporation)\r\n\r\n';
+       var main = 'Name: data\r\nSHA-256-Digest: ' + digest.toString("base64") + '\r\n\r\n';
+       fs.writeFileSync(homedir + '/MANIFEST.MF', header + main);       
+       pkcs11.C_DigestInit(session, { mechanism: pkcs11js.CKM_SHA256 });
+       pkcs11.C_DigestUpdate(session, new Buffer(header + main));
+       var digest = pkcs11.C_DigestFinal(session, Buffer(256 / 8));
+       var manifest = digest.toString("base64")       
+       pkcs11.C_DigestInit(session, { mechanism: pkcs11js.CKM_SHA256 });
+       pkcs11.C_DigestUpdate(session, new Buffer(header));
+       var digest = pkcs11.C_DigestFinal(session, Buffer(256 / 8));
+       var header = digest.toString("base64")       
+       pkcs11.C_DigestInit(session, { mechanism: pkcs11js.CKM_SHA256 });
+       pkcs11.C_DigestUpdate(session, new Buffer(main));
+       var digest = pkcs11.C_DigestFinal(session, Buffer(256 / 8));
+       var main = digest.toString("base64")
+       var secpad = 'Signature-Version: 1.0\r\nCreated-By: 11 (Oracle Corporation)\r\nSHA-256-Digest-Manifest: ' + manifest + '\r\nSHA-256-Digest-Manifest-Main-Attributes: ' + header + '\r\n\r\nName: data\r\nSHA-256-Digest: ' + main + '\r\n\r\n';        
+       fs.writeFileSync(homedir + '/SEC_PAD.SF', secpad);       
        pkcs11.C_FindObjectsInit(session, [{ type: pkcs11js.CKA_CLASS, value: pkcs11js.CKO_PRIVATE_KEY }]);
         var hObject = pkcs11.C_FindObjects(session);
         while (hObject) {
@@ -204,9 +224,9 @@ function eid(confirm) {
                 console.log(`Object #${hObject}: ${attrs[2].value.toString()}`);
                 if(attrs[2].value.toString() == 'Signature') {
                   pkcs11.C_SignInit(session, { mechanism: pkcs11js.CKM_SHA1_RSA_PKCS }, hObject); // hObject = privateKey$
-                  pkcs11.C_SignUpdate(session, new Buffer("Hello World!"));
+                  pkcs11.C_SignUpdate(session, new Buffer(secpad));
                   var signature = pkcs11.C_SignFinal(session, Buffer(256));
-                  console.log(signature.toString('base64'));
+                  console.log(signature.toString('hex'));
                 }
             }
             hObject = pkcs11.C_FindObjects(session);
