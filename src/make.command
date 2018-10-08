@@ -25,6 +25,29 @@ pushd /Volumes/Open-eID
 ln -s /Applications
 popd
 sleep 2
+mkdir /Volumes/Open-eID/.background
+cp ../mac_background.jpg /Volumes/Open-eID/.background/
+echo '
+   tell application "Finder"
+     tell disk "'Open-eID'"
+           open
+           set current view of container window to icon view
+           set toolbar visible of container window to false
+           set statusbar visible of container window to false
+           set the bounds of container window to {400, 100, 920, 440}
+           set viewOptions to the icon view options of container window
+           set arrangement of viewOptions to not arranged
+           set icon size of viewOptions to 72
+           set background picture of viewOptions to file ".background:'mac_background.jpg'"
+           set position of item "Open-eID.app" of container window to {160, 205}
+           set position of item "Applications" of container window to {360, 205}
+           close
+           open
+           update without registering applications
+           delay 2
+     end tell
+   end tell
+' | osascript
 sync
 hdiutil detach "${DEVICE}"
 hdiutil convert "../../build/Open-eID.dmg" -format UDZO -imagekey zlib-level=9 -o "../../release/Open-eID.dmg"

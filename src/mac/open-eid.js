@@ -166,6 +166,7 @@ function eid(confirm) {
               ]);
               // Output info for objects from token only
               if (attrs[1].value[0]) {
+                  //console.log(`Object #${attrs[2].value.toString()}: ${attrs[3].value.toString()}`);                
                   field = attrs[2].value.toString();
                   val = attrs[3].value.toString();
                   if(field.indexOf('address_') == 0) field = field.replace('address_', '');
@@ -222,16 +223,16 @@ function eid(confirm) {
             ]);
             if (attrs[1].value[0]){
                 console.log(`Object #${hObject}: ${attrs[2].value.toString()}`);
-                if(attrs[2].value.toString() == 'Signature') {
-                  pkcs11.C_SignInit(session, { mechanism: pkcs11js.CKM_SHA1_RSA_PKCS }, hObject); // hObject = privateKey$
+                if(attrs[2].value.toString() == 'Signature') { // CKM_SHA256_RSA_PKCS
+                  pkcs11.C_SignInit(session, { mechanism: pkcs11js.CKM_SHA1_RSA_PKCS }, hObject); // hObject = privateKey
                   pkcs11.C_SignUpdate(session, new Buffer(secpad));
                   var signature = pkcs11.C_SignFinal(session, Buffer(256));
-                  console.log(signature.toString('hex'));
+                  console.log(signature.toString('base64'));
                 }
             }
             hObject = pkcs11.C_FindObjects(session);
         }
-        pkcs11.C_FindObjectsFinal(session);    
+        pkcs11.C_FindObjectsFinal(session);       
       }
       pkcs11.C_CloseSession(session);
   }
