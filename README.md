@@ -26,7 +26,7 @@ Open-eID detects the browser automatically but the result will open in a new win
 
 The easiest thing to do to capture the data from the origin tab/window is to save the result in LocalStorage and read it from your origin page.
 
-The Web Extension allows you to read the card data without opening a new tab/window but requires users to install both the app and the extension.
+The Web Extension allows you to read the card data without opening a new tab/window but requires users to install both the app and the extension and enable it for each website requesting access to the extension.
 
 The easiest way to use Open-eID is to use the helper function. Just add the following code to `head` section of your HTML page.
 

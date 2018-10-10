@@ -44,6 +44,10 @@ on the Add-ons for Firefox Website
 You can test the extension on the 
 [following page](https://e-id.eu.org/src/extension_test.html)
 
+The extension must be enabled for each site by clicking its icon.
+
+Clicking the extension button again removes the permission.
+
 ## Browser matrix
 
 |Browser |Native URL|Extension| Helper |
