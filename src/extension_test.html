@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>Open-eID Web Extension Demo</title>
+<meta name="viewport" content="width=device-width, user-scalable=no" />
 </head>
 <body>
 <style content="text/css">
@@ -13,40 +14,46 @@ tt {
   display: block;
 }
 </style>
+<a href="javascript:window.postMessage({url: 'open-eid:'}, '*');" id="openEID">Click here to test the Web Extension</a>
+<hr />
 <script type="text/javascript">
 <!--//
 
 window.localStorage.setItem('open-eid', '');
 
-//-->
-</script>
-<a href="javascript:window.postMessage({url: 'open-eid:'}, '*');" onclick="
-
-window.eidInterval = setInterval(function() {
-  console.log('Wait for Open-eID result...');
-  var eid = window.localStorage.getItem('open-eid');
-  if(typeof eid != 'undefined' && eid != null) {
-    if(eid != '') {
-      console.log(eid);
-      clearInterval(window.eidInterval);
-      var json = eval('(' + eid + ')');
-      window.localStorage.setItem('open-eid', '');      
-      var tt = document.createElement('tt');
-      tt.innerHTML = '{';
-      document.body.appendChild(tt);
-      for(var i in json) {
+document.getElementById('openEID').addEventListener('click', function(event) {
+  if('openEIDInstalled' in window) {
+    // ok
+  } else {
+    alert('Extension not installed or not enabled for this site. Install the extension and click on its button to enable it for this site.')
+    return;
+  }
+  window.eidInterval = setInterval(function() {
+    console.log('Wait for Open-eID result...');
+    var eid = window.localStorage.getItem('open-eid');
+    if(typeof eid != 'undefined' && eid != null) {
+      if(eid != '') {
+        console.log(eid);
+        clearInterval(window.eidInterval);
+        var json = eval('(' + eid + ')');
+        window.localStorage.setItem('open-eid', '');      
         var tt = document.createElement('tt');
-        tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;';
+        tt.innerHTML = '{';
+        document.body.appendChild(tt);
+        for(var i in json) {
+          var tt = document.createElement('tt');
+          tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;';
+          document.body.appendChild(tt);
+        }
+        var tt = document.createElement('tt');
+        tt.innerHTML = '}';
         document.body.appendChild(tt);
       }
-      var tt = document.createElement('tt');
-      tt.innerHTML = '}';
-      document.body.appendChild(tt);
     }
-  }
-}, 1000);
+  }, 1000);
+});
 
-">Click here to test the Web Extension</a>
-<hr />
+//-->
+</script>
 </body>
 </html>
