@@ -1,3 +1,21 @@
+// Opera 8.0+
+var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+// Firefox 1.0+
+var isFirefox = typeof InstallTrigger !== 'undefined';
+
+// Safari 3.0+ "[object HTMLElementConstructor]" 
+var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+
+// Internet Explorer 6-11
+var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+// Edge 20+
+var isEdge = !isIE && !!window.StyleMedia;
+
+// Chrome 1+
+var isChrome = !!window.chrome && !!window.chrome.webstore;
+
 var openEID = {
   ffAlert: 'Firefox requires the app and the extension. Click to OK to be redirected to the plugin website to install it.',
   ffURL: 'https://addons.mozilla.org/en/firefox/addon/open-eid/',
@@ -54,7 +72,10 @@ var openEID = {
       if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
         if(confirm(openEID.ffAlert)) window.open(openEID.ffURL);
       } else {
-        location = 'open-eid:' + new String(location);
+        var browser = '';
+        if(isChrome) browser = '#Google Chrome';
+        if(isSafari) browser = '#Safari';
+        location = 'open-eid:' + new String(location) + browser;
       }
     }
   }

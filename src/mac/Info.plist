@@ -18,6 +18,8 @@
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
 	<string>aplt</string>
+  <key>NSAppleEventUsageDescription</key>
+  <string>Open-eID needs to send Apple Events to control this application and the Browser.</string>	
 	<key>LSMinimumSystemVersionByArchitecture</key>
 	<dict>
 		<key>x86_64</key>

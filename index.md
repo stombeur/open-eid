@@ -21,7 +21,12 @@ The native app can be called using a special `open-eid:` URL scheme followed by 
 
 Sample: `open-eid:https://e-id.eu.org/src/url_test.html`
 
-Test this sample [here](open-eid:https://e-id.eu.org/src/url_test.html)
+Test this sample [here](open-eid:https://e-id.eu.org/src/url_test.html#Google Chrome) for Google Chrome
+
+Test this sample [here](open-eid:https://e-id.eu.org/src/url_test.html#Safari) for Safari
+
+Test this sample [here](open-eid:https://e-id.eu.org/src/url_test.html) for Default Browser
+
 
 The data is sent to the redirection URL fragment as an URL encoded JSON object after `#`.
 

@@ -112,8 +112,12 @@ function eid(confirm) {
         if('url' in json) args[0] = json.url;
       }
       
+      if(args[0].indexOf('#') != -1) {
+        process.env.BROWSER = args[0].substring(args[0].indexOf('#') + 1);
+        args[0] = args[0].substring(0, args[0].indexOf('#') - 1);
+      }
       process.env.ARG = args[0];
-      if(args.length > 1) process.env.BROWSER = args[1];
+      if(args.length > 1 && process.env.BROWSER == '') process.env.BROWSER = args[1];
       //execSync("osascript -e 'display dialog \"" + process.env.BROWSER + "\"'");    
 
       if(args[0].indexOf('open-eid:') == -1 &&  args[0].indexOf('open-eid-read:') == -1 && args[0].indexOf('open-eid-sign:') == -1) {
