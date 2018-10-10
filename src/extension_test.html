@@ -25,7 +25,7 @@ document.getElementById('openEID').addEventListener('click', function(event) {
   if('openEIDInstalled' in window) {
     // ok
   } else {
-    alert('Extension not installed or not enabled for this site. Install the extension and click on its button to enable it for this site.')
+    alert('Extension not installed or not enabled for this site.\nInstall the extension and click on its button to enable it for this site.')
     return;
   }
   window.eidInterval = setInterval(function() {
