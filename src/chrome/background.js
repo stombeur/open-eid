@@ -22,28 +22,45 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
   );   
 });
 
-chrome.permissions.getAll(function(permissions) {
-  console.log(permissions.origins);
-  var origins = permissions.origins;
-  origins.push('file:');
-  for(var i in origins) {
-    var origin = origins[i];
-    chrome.webNavigation.onCompleted.addListener(function(details) {
-      console.log(details);
-      try {
-        chrome.tabs.executeScript(details.tabId, {
-          file: "contentScript.js",
-          runAt: "document_end"
-        }, function(result) {
-          var lastErr = chrome.runtime.lastError;
-          if(lastErr) console.log(lastErr);
-        });  
-      } catch(e) {
-        // not allowed
-      }    
-    }, {url: [{urlPrefix: origin.substring(0, origin.length - 2)}]});
+function inject() {
+  if(!chrome) {
+    setTimeout(function() {
+      inject();
+    }, 1);
+    return;
   }
-});
+  if(!('permissions' in chrome)) {
+    setTimeout(function() {
+      inject();
+    }, 1);
+    return;
+  }  
+  chrome.permissions.getAll(function(permissions) {
+    console.log(permissions.origins);
+    var origins = permissions.origins;
+    origins.push('file:');
+    for(var i in origins) {
+      var origin = origins[i];
+      if(!('webNavigation' in chrome)) return;
+      chrome.webNavigation.onCompleted.addListener(function(details) {
+        console.log(details);
+        try {
+          chrome.tabs.executeScript(details.tabId, {
+            file: "contentScript.js",
+            runAt: "document_end"
+          }, function(result) {
+            var lastErr = chrome.runtime.lastError;
+            if(lastErr) console.log(lastErr);
+          });  
+        } catch(e) {
+          // not allowed
+        }    
+      }, {url: [{urlPrefix: origin.substring(0, origin.length - 2)}]});
+    }
+  });
+}
+
+inject();
 
 //chrome.webNavigation.onCompleted.addListener
 
@@ -105,6 +122,12 @@ chrome.browserAction.onClicked.addListener(function(tab) {
           console.log('Extension has access to ' + origin);
           chrome.browserAction.setBadgeBackgroundColor({color: '#79d3af'});
           chrome.browserAction.setBadgeText({text: '\u2714'});
+          chrome.tabs.executeScript(tab.id, {
+            code: "history.go(0)"
+          }, function(result) {
+            var lastErr = chrome.runtime.lastError;
+            if(lastErr) console.log(lastErr);
+          });           
         } else {
           console.log('Permission NOT granted - extension has NO access to ' + origin);
           chrome.browserAction.setBadgeBackgroundColor({color: 'red'});
