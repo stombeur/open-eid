@@ -18,7 +18,6 @@ cp -f -R ../../build/mac/Open-eID.app /Applications/
 SIZE=`du -sh "../../build/mac/" | sed 's/\([0-9]*\)M\(.*\)/\1/'`
 SIZE=`echo "${SIZE} + 1.0" | bc | awk '{print int($1+0.5)}'`
 rm ../../release/Open-eID.dmg
-rm ../../build/Open-eID.dmg
 hdiutil create -srcfolder ../../build/mac/ -volname "Open-eID" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -size ${SIZE}M "../../build/Open-eID.dmg"
 DEVICE=$(hdiutil attach -readwrite -noverify "../../build/Open-eID.dmg" | egrep '^/dev/' | sed 1q | awk '{print $1}')
 sleep 2
