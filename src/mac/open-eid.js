@@ -112,9 +112,10 @@ function eid(confirm) {
         if('url' in json) args[0] = json.url;
       }
       
-      if(args[0].indexOf('#') != -1) {
-        process.env.BROWSER = args[0].substring(args[0].indexOf('#') + 1);
-        args[0] = args[0].substring(0, args[0].indexOf('#') - 1);
+      var url = decodeURIComponent(args[0]);
+      if(url.indexOf('#') != -1) {
+        process.env.BROWSER = url.substring(url.indexOf('#') + 1);
+        args[0] = args[0].substring(0, decodeURIComponent(args[0]).indexOf('#'));
       }
       process.env.ARG = args[0];
       if(args.length > 1 && process.env.BROWSER == '') process.env.BROWSER = args[1];
