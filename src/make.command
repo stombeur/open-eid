@@ -12,6 +12,7 @@ chmod +x open-eid
 mv open-eid ../../build/mac/Open-eID.app/Contents/MacOS/
 chmod +x ../../build/mac/Open-eID.app/Contents/MacOS/open-eid
 cp node_modules/pkcs11js/build/Release/pkcs11.node ../../build/mac/Open-eID.app/Contents/MacOS/
+#codesign --deep -f -v -s "Open e-ID" --no-strict --deep ../../build/mac/Open-eID.app
 rm -f -R /Applications/Open-eID.app
 cp -f -R ../../build/mac/Open-eID.app /Applications/
 SIZE=`du -sh "../../build/mac/" | sed 's/\([0-9]*\)M\(.*\)/\1/'`
@@ -52,6 +53,10 @@ sync
 bless "/Volumes/Open-eID/" --openfolder "/Volumes/Open-eID" 
 hdiutil detach "${DEVICE}"
 hdiutil convert "../../build/Open-eID.dmg" -format UDZO -imagekey zlib-level=9 -o "../../release/Open-eID.dmg"
+rm ../../build/Open-eID.dmg
+rm -f -R  ../../build/mac/Open-eID.app
+#codesign -f -v -s "Open e-ID" ../../release/Open-eID.dmg
+#spctl -a -t open --context context:primary-signature -v ../../release/Open-eID.dmg
 cd "`dirname $0`"
 cd mac
 rm Applications

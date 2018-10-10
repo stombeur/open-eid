@@ -57,6 +57,7 @@ Clicking the extension button again removes the permission.
 |Firefox*|&#x2714;  |&#x2714; |&#x2714;|
 |IE      |&#x2714;  |         |&#x2714;|
 |Edge    |&#x2714;  |         |&#x2714;|
+|Opera   |&#x2714;  |&#x2714; |&#x2714;|
 
 \**native URL using Web Extension*
 
