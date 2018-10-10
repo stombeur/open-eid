@@ -3,13 +3,16 @@
 cd "`dirname $0`"
 cd ..
 cd release
+comment=`cat ../src/COMMENT`
+# remove comment for next release
+echo >../src/COMMENT
 r=`cat ../src/RELEASE`
 r=`echo $r + 1 | bc`
 v=`cat ../src/VERSION`
 v=`echo "x=$v; if($r > 10) x=x + 0.1; if(x < 1) print 0; x" | bc`
 /bin/echo -n "$r " >../src/RELEASE
 /bin/echo -n "$v " >../src/VERSION
-git tag -a v$v.$r -m "Releasing version v$v.$r"
+git tag -a v$v.$r -m "Releasing version v$v.$r $comment"
 git push origin --tags
 #https://github.community/t5/How-to-use-Git-and-GitHub/How-to-create-full-release-from-command-line-not-just-a-tag/td-p/6895
 token=`cat ../build/GITHUB_TOKEN`
