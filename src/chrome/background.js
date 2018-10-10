@@ -22,6 +22,8 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
   );   
 });
 
+var origins = [];
+
 function inject() {
   if(!chrome) {
     setTimeout(function() {
@@ -37,7 +39,7 @@ function inject() {
   }  
   chrome.permissions.getAll(function(permissions) {
     console.log(permissions.origins);
-    var origins = permissions.origins;
+    origins = permissions.origins;
     origins.push('file:');
     for(var i in origins) {
       var origin = origins[i];
@@ -65,6 +67,7 @@ inject();
 //chrome.webNavigation.onCompleted.addListener
 
 chrome.browserAction.onClicked.addListener(function(tab) {
+  console.log(tab);
   console.log('Location: ' + tab.url);
   var parts = [];
   parts = tab.url.split(':');
@@ -84,59 +87,68 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     permissions: ['tabs', 'webNavigation'],
     origins: [protocol + '://' + host + '/*']
   };
-  chrome.permissions.contains(permission, function(result) {
-    if(result) {
-      console.log('Extension has access to ' + origin);
-      chrome.browserAction.setBadgeBackgroundColor({color: '#79d3af'});
-      chrome.browserAction.setBadgeText({text: '\u2714'});
-      if(confirm('Open e-ID has access to ' + host + '\n\nClick Cancel to remove the authorization')) {
-        // ok
-      } else {
-        console.log('Permission remove request for ' + origin);
-        chrome.permissions.remove(permission, function(removed) {
-          if(removed) {
-            console.log('Permission removed for ' + origin);
-            chrome.browserAction.setBadgeBackgroundColor({color: 'red'});
-            chrome.browserAction.setBadgeText({text: '\u2715'});
-            alert('The permission was removed');
-            setTimeout(function() {
-              chrome.browserAction.setBadgeText({text: ''});
-            }, 2000);            
-          } else {
-            alert('Open e-ID has access to ' + host);
-          }
-        }); 
-        setTimeout(function() {
-          chrome.browserAction.setBadgeText({text: ''});
-        }, 2000);               
-      }
-      setTimeout(function() {
-        chrome.browserAction.setBadgeText({text: ''});
-      }, 2000);      
-    } else {
-      console.log('Permission request for ' + origin);
-      chrome.browserAction.setBadgeBackgroundColor({color: 'orange'});
-      chrome.browserAction.setBadgeText({text: '?'});
-      chrome.permissions.request(permission, function(granted) {
-        if(granted) {
-          console.log('Extension has access to ' + origin);
-          chrome.browserAction.setBadgeBackgroundColor({color: '#79d3af'});
-          chrome.browserAction.setBadgeText({text: '\u2714'});
+  console.log(origins);
+  console.log(origin);
+  console.log(origins.includes(origin));
+  if(origins.includes(origin)) {
+    console.log('Extension has access to ' + origin);
+    chrome.browserAction.setBadgeBackgroundColor({color: '#79d3af'});
+    chrome.browserAction.setBadgeText({text: '\u2714'});
+    /*if(confirm('Open e-ID has access to ' + host + '\n\nClick Cancel to remove the authorization')) {
+      // ok
+    } else {*/
+      console.log('Permission remove request for ' + origin);
+      chrome.permissions.remove(permission, function(removed) {
+        if(removed) {
+          console.log('Permission removed for ' + origin);
+          chrome.browserAction.setBadgeBackgroundColor({color: 'red'});
+          chrome.browserAction.setBadgeText({text: '\u2715'});
+          //alert('The permission was removed');
+          inject();
           chrome.tabs.executeScript(tab.id, {
             code: "history.go(0)"
           }, function(result) {
             var lastErr = chrome.runtime.lastError;
             if(lastErr) console.log(lastErr);
           });           
+          setTimeout(function() {
+            chrome.browserAction.setBadgeText({text: ''});
+          }, 2000);            
         } else {
-          console.log('Permission NOT granted - extension has NO access to ' + origin);
-          chrome.browserAction.setBadgeBackgroundColor({color: 'red'});
-          chrome.browserAction.setBadgeText({text: '\u2715'});
+          //alert('Open e-ID has access to ' + host);
+          console.log('Extension has access to ' + host);
         }
-        setTimeout(function() {
-          chrome.browserAction.setBadgeText({text: ''});
-        }, 2000);        
-      });      
-    }
-  });  
+      }); 
+      setTimeout(function() {
+        chrome.browserAction.setBadgeText({text: ''});
+      }, 2000);               
+    //}
+    setTimeout(function() {
+      chrome.browserAction.setBadgeText({text: ''});
+    }, 2000);     
+  } else {
+    chrome.browserAction.setBadgeBackgroundColor({color: 'orange'});
+    chrome.browserAction.setBadgeText({text: '?'});
+    chrome.permissions.request(permission, function(granted) {
+      if(granted) {
+        console.log('Permission granted - extension has access to ' + origin);
+        chrome.browserAction.setBadgeBackgroundColor({color: '#79d3af'});
+        chrome.browserAction.setBadgeText({text: '\u2714'});
+        inject();
+        chrome.tabs.executeScript(tab.id, {
+          code: "history.go(0)"
+        }, function(result) {
+          var lastErr = chrome.runtime.lastError;
+          if(lastErr) console.log(lastErr);
+        });           
+      } else {
+        console.log('Permission NOT granted - extension has NO access to ' + origin);
+        chrome.browserAction.setBadgeBackgroundColor({color: 'red'});
+        chrome.browserAction.setBadgeText({text: '\u2715'});
+      }
+      setTimeout(function() {
+        chrome.browserAction.setBadgeText({text: ''});
+      }, 2000);        
+    });
+  }     
 });
