@@ -16,6 +16,10 @@ var isEdge = !isIE && !!window.StyleMedia;
 // Chrome 1+
 var isChrome = !!window.chrome && !!window.chrome.webstore;
 
+isInWebAppiOS = (window.navigator.standalone == true);
+isInWebAppChrome = (window.matchMedia('(display-mode: standalone)').matches);
+isInWebApp = isInWebAppiOS || isInWebAppChrome;
+
 var openEID = {
   ffAlert: 'Firefox requires the app and the extension. Click to OK to be redirected to the plugin website to install it.',
   ffURL: 'https://addons.mozilla.org/en/firefox/addon/open-eid/',
@@ -92,6 +96,7 @@ window.addEventListener('load', function() {
     if(typeof json == 'object') {
       window.localStorage.setItem('open-eid', h);
       document.body.style.overflow = 'hidden';
+      if(isInWebApp) window.resizeTo(200, 200);
       var div = document.createElement('div');
       div.setAttribute('style', 'position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: white; background-image: url(https://e-id.eu.org/release/loading.gif); background-position: center center; background-repeat: no-repeat;');
       document.body.appendChild(div);
