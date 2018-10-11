@@ -77,7 +77,7 @@ var openEID = {
         if(confirm(openEID.ffAlert)) window.open(openEID.ffURL);
       } else {
         var browser = '';
-        if(isChrome) browser = '#Google Chrome';
+        if(isChrome) browser = '#Google Chrome App'; // enable app mode
         if(isSafari) browser = '#Safari';
         if(isOpera) browser = '#Opera';
         location = 'open-eid:' + new String(location) + browser;

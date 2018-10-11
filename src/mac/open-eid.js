@@ -76,7 +76,7 @@ function native(obj) {
        process.stdout.write(json);  
      } else {
        var args = [process.env.ARG, process.env.BROWSER];
-       if(process.env.BROWSER == 'Google Chrome') {
+       if(process.env.BROWSER == 'Google Chrome App') {
          args[1] = '-n "/Applications/Google Chrome.app" --args --app='; 
        } else {
          if(args[1] != '') args[1] = '-a "' + args[1] + '" ';
