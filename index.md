@@ -65,7 +65,7 @@ Clicking the extension button again removes the permission.
 
 \**native URL using Web Extension*
 
-\**Opera support Chrome Extension, install from Chrome Web Store*
+\**Opera support Chrome extensions, install from Chrome Web Store*
 
 ## Status
 
