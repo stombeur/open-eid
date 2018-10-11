@@ -24,7 +24,7 @@ Sample: `open-eid:https://e-id.eu.org/src/url_test.html`
 Test this sample on [Google Chrome](open-eid:https://e-id.eu.org/src/url_test.html#Google Chrome) ,
 [Safari](open-eid:https://e-id.eu.org/src/url_test.html#Safari),
 [Opera](open-eid:https://e-id.eu.org/src/url_test.html#Opera) or
-[You default Browser](open-eid:https://e-id.eu.org/src/url_test.html)
+[Your default Browser](open-eid:https://e-id.eu.org/src/url_test.html)
 
 
 The data is sent to the redirection URL fragment as an URL encoded JSON object after `#`.
