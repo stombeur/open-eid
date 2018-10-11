@@ -76,8 +76,12 @@ function native(obj) {
        process.stdout.write(json);  
      } else {
        var args = [process.env.ARG, process.env.BROWSER];
-       if(args[1] != '') args[1] = '-a "' + args[1] + '"';
-       exec('open ' + args[1] + ' "' + args[0].substring(args[0].indexOf(':') + 1) + '#' + encodeURIComponent(json) + '"');
+       if(process.env.BROWSER == 'Google Chrome') {
+         args[1] = '-n "/Applications/Google Chrome.app" --args --app='; 
+       } else {
+         if(args[1] != '') args[1] = '-a "' + args[1] + '" ';
+       }
+       exec('open ' + args[1] + '"' + args[0].substring(args[0].indexOf(':') + 1) + '#' + encodeURIComponent(json) + '"');
      }
 }
 
