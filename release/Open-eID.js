@@ -96,7 +96,10 @@ window.addEventListener('load', function() {
     if(typeof json == 'object') {
       window.localStorage.setItem('open-eid', h);
       document.body.style.overflow = 'hidden';
-      if(isInWebApp) window.resizeTo(200, 200);
+      if(isInWebApp) {
+        window.resizeTo(250, 250);
+        window.moveTo((screen.width - 250) / 2, (screen.height - 250) / 2);
+      }
       var div = document.createElement('div');
       div.setAttribute('style', 'position: fixed; left: 0; top: 0; width: 100%; height: 100%; background-color: white; background-image: url(https://e-id.eu.org/release/loading.gif); background-position: center center; background-repeat: no-repeat;');
       document.body.appendChild(div);
