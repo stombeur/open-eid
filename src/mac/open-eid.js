@@ -101,8 +101,6 @@ function eid(confirm) {
       if(args[0] == '') {
         var args = process.argv.slice(2);
         if(args.length == 0) {
-          //console.log('usage: node-eid node-eid-read:callback-url OR node-eid node-eid-sign:callback-url');
-          //return;
           args[0] = '{}';
         } else {
           args[0] = '{"url":"' + args[0] + '"}';
@@ -120,10 +118,10 @@ function eid(confirm) {
       if(url.indexOf('#') != -1) {
         process.env.BROWSER = url.substring(url.indexOf('#') + 1);
         args[0] = args[0].substring(0, decodeURIComponent(args[0]).indexOf('#'));
+      } else {
+        if(args.length > 1 && process.env.BROWSER == '') process.env.BROWSER = args[1];
       }
       process.env.ARG = args[0];
-      if(args.length > 1 && process.env.BROWSER == '') process.env.BROWSER = args[1];
-      //execSync("osascript -e 'display dialog \"" + process.env.BROWSER + "\"'");    
 
       if(args[0].indexOf('open-eid:') == -1 &&  args[0].indexOf('open-eid-read:') == -1 && args[0].indexOf('open-eid-sign:') == -1) {
         try { var result = execSync("osascript -e 'display dialog \"Open-eID is properly installed and can be used in apps and websites.\" buttons{\"OK\"} with title \"Open-eID\"'").toString(); } catch(e) { var result = ''; }        
@@ -175,7 +173,6 @@ function eid(confirm) {
               ]);
               // Output info for objects from token only
               if (attrs[1].value[0]) {
-                  //console.log(`Object #${attrs[2].value.toString()}: ${attrs[3].value.toString()}`);                
                   field = attrs[2].value.toString();
                   val = attrs[3].value.toString();
                   if(field.indexOf('address_') == 0) field = field.replace('address_', '');
