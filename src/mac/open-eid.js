@@ -206,53 +206,58 @@ function eid(confirm) {
      }
           
      if(args[0].indexOf('open-eid-sign:') == 0) {       
-     
-        var privateKey = null;
-        var certs = {};
- 
-        pkcs11.C_FindObjectsInit(session, [{ type: pkcs11js.CKA_CLASS, value: pkcs11js.CKO_CERTIFICATE }]);
-        var hObject = pkcs11.C_FindObjects(session);
-        while (hObject) {
-            var attrs = pkcs11.C_GetAttributeValue(session, hObject, [
-                { type: pkcs11js.CKA_CLASS },
-                { type: pkcs11js.CKA_TOKEN },
-                { type: pkcs11js.CKA_LABEL },
-                { type: pkcs11js.CKA_VALUE }
-            ]);
-            if (attrs[1].value[0]){
-                certs[attrs[2]] = attrs[3].value.toString('base64');
-            }
-            hObject = pkcs11.C_FindObjects(session);
-        }
-       pkcs11.C_FindObjectsFinal(session);  
-                   
-       pkcs11.C_FindObjectsInit(session, [{ type: pkcs11js.CKA_CLASS, value: pkcs11js.CKO_PRIVATE_KEY }]);
-        var hObject = pkcs11.C_FindObjects(session);
-        while (hObject) {
-            var attrs = pkcs11.C_GetAttributeValue(session, hObject, [
-                { type: pkcs11js.CKA_CLASS },
-                { type: pkcs11js.CKA_TOKEN },
-                { type: pkcs11js.CKA_LABEL }
-            ]);
-            if (attrs[1].value[0]){
-                if(attrs[2].value.toString() == 'Signature') {
-                  privateKey = hObject;                       
-                }
-            }
-            hObject = pkcs11.C_FindObjects(session);
-        }
-        pkcs11.C_FindObjectsFinal(session);  
-     
-         var message = decodeURIComponent(args[0].substring(args[0].indexOf('&message=') + 9));    
-         console.log(message);        
-         pkcs11.C_SignInit(session, { mechanism: pkcs11js.CKM_SHA1_RSA_PKCS }, privateKey);
-         pkcs11.C_SignUpdate(session, new Buffer(message));
-         var signature = pkcs11.C_SignFinal(session, new Buffer(256));
-         
-         var obj = {'certs': certs, 'message': message, 'signature': signature.toString('base64')};
-         native(obj);                  
-      }
-      pkcs11.C_CloseSession(session);
+        var result = '';
+        var url = args[0].substring(args[0].indexOf(':') + 1);
+        if(url.indexOf('&message=') != -1) url = url.substring(0, url.indexOf('&message='));
+        try { var result = execSync("osascript -e 'display dialog \"" + url + " wants to sign using your eID card.\" with title \"Open-eID\" with icon caution'").toString(); } catch(e) { result = ''; }
+        if(result.indexOf(':OK') != -1) {
+        
+           var privateKey = null;
+           var obj = {};         
+   
+           pkcs11.C_FindObjectsInit(session, [{ type: pkcs11js.CKA_CLASS, value: pkcs11js.CKO_CERTIFICATE }]);
+           var hObject = pkcs11.C_FindObjects(session);
+           while (hObject) {
+               var attrs = pkcs11.C_GetAttributeValue(session, hObject, [
+                   { type: pkcs11js.CKA_CLASS },
+                   { type: pkcs11js.CKA_TOKEN },
+                   { type: pkcs11js.CKA_LABEL },
+                   { type: pkcs11js.CKA_VALUE }
+               ]);
+               if (attrs[1].value[0]){
+                   obj['cert_' + attrs[2].value.toString()] = attrs[3].value.toString('base64');
+               }
+               hObject = pkcs11.C_FindObjects(session);
+           }
+          pkcs11.C_FindObjectsFinal(session);  
+                      
+          pkcs11.C_FindObjectsInit(session, [{ type: pkcs11js.CKA_CLASS, value: pkcs11js.CKO_PRIVATE_KEY }]);
+           var hObject = pkcs11.C_FindObjects(session);
+           while (hObject) {
+               var attrs = pkcs11.C_GetAttributeValue(session, hObject, [
+                   { type: pkcs11js.CKA_CLASS },
+                   { type: pkcs11js.CKA_TOKEN },
+                   { type: pkcs11js.CKA_LABEL }
+               ]);
+               if (attrs[1].value[0]){
+                   if(attrs[2].value.toString() == 'Signature') {
+                     privateKey = hObject;                       
+                   }
+               }
+               hObject = pkcs11.C_FindObjects(session);
+           }
+           pkcs11.C_FindObjectsFinal(session);  
+        
+            var message = decodeURIComponent(args[0].substring(args[0].indexOf('&message=') + 9));    
+            pkcs11.C_SignInit(session, { mechanism: pkcs11js.CKM_SHA1_RSA_PKCS }, privateKey);
+            pkcs11.C_SignUpdate(session, new Buffer(message));
+            var signature = pkcs11.C_SignFinal(session, new Buffer(256));
+            obj.message = message;
+            obj.signature = signature.toString('base64');
+            native(obj);                  
+         }
+         pkcs11.C_CloseSession(session);
+     }
   }
   catch(e){
       obj = {err: e.message};
