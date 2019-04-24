@@ -19,13 +19,21 @@ Source is available [here](https://github.com/michael79bxl/open-eid/tree/master/
 
 The native app can be called using a special `open-eid:` URL scheme followed by the URL used to redirect e-ID data.
 
-Sample: `open-eid:https://e-id.eu.org/src/url_test.html`
+Signing data is done using `open-eid-sign:` URL scheme followed by then URL to redirect e-ID signed data ending with & `message` argument containing base64 encoded data to sign.
+
+Sample read `open-eid:https://e-id.eu.org/src/url_test.html`
 
 Test this sample on [Google Chrome](open-eid:https://e-id.eu.org/src/url_test.html#Google Chrome) ,
 [Safari](open-eid:https://e-id.eu.org/src/url_test.html#Safari),
 [Opera](open-eid:https://e-id.eu.org/src/url_test.html#Opera) or
 [Your default Browser](open-eid:https://e-id.eu.org/src/url_test.html)
 
+Sample sign: `open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D`
+
+Test this sample on [Google Chrome](open-eid:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D#Google Chrome) ,
+[Safari](open-eid:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D#Safari),
+[Opera](open-eid:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D#Opera) or
+[Your default Browser](open-eid:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D)
 
 The data is sent to the redirection URL fragment as an URL encoded JSON object after `#`.
 
@@ -69,9 +77,10 @@ Clicking the extension button again removes the permission.
 
 ## Status
 
-This is a pre-release version 0.1 with the following features
+This is a pre-release version 0.2 with the following features
 
 - Read eID card content using URL or Web extension
+- Sign content with eID card using URL or Web extension
 
 The app has been tested on Windows and Mac OS with belgian e-ID cards.
 
@@ -81,12 +90,16 @@ The app has been tested on Windows and Mac OS with belgian e-ID cards.
 
 - Provide opensource alternative for e-ID card reading and signing for modern browsers
 - Read e-ID card content
-- Sign content and documents using e-ID card
+- Sign content using e-ID card
+- Sign JAR files using e-ID card
+- Sign XML using e-ID card
+- Sign DOCX using e-ID card
+- Sign PDF documents using e-ID card
 - KISS (Keep It Simple and Secure)
 - Linux version
 - Mobile version "à-la" itsme for Android & iOS
 
-*Authentication is not a project goal. This can be achieved using mutual SSL.*
+*Authentication is not a project goal. Since signing is now available, the signing procedure can be used to provide authentication.*
 
 ## Developement tools
 

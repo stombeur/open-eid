@@ -18,7 +18,11 @@ The app has been tested on Windows and Mac OS with belgian e-ID cards.
 
 You can use Open-eID with a simple URL starting with `open-eid:` followed by your redirection URL.
 
-The card data is "sent" to your redirection URL using the "hash" part (right after `#`).
+Signing data is done using `open-eid-sign:` followed by your redirection URL ending with & `message` argument containing base64 encoded data to sign.
+
+Sample sign URL: `open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D`
+
+The card data or sign result is "sent" to your redirection URL using the "hash" part (right after `#`).
 
 The data is URI component encoded JSON object with every value escaped/URI component encoded.
 
@@ -37,6 +41,12 @@ The `openEID.read` function can then be called with a callback function.
 The callback function has a single parameter as an object containing decoded card data.
 
 `openEID.read(function(result) { console.log(result); })`
+
+The `openEID.sign` function can then be called with a message to sign and a callback function.
+
+The callback function has single parameter as an object containing signed data.
+
+`openEID.sign(message, function(result) { console.log(result); })`
 
 You can test the helper function on the 
 [following page](https://e-id.eu.org/src/helper_test.html)
