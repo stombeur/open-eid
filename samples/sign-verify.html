@@ -52,7 +52,7 @@ document.getElementById('verify').addEventListener('click', function() {
    var pubKey = x.getPublicKey();
    var sig = new KJUR.crypto.Signature({"alg": "SHA1withRSA"});
    sig.init(pubKey);
-   sig.updateString(btoa(document.getElementById('message').value));
+   sig.updateString(document.getElementById('message').value);
    var isValid = sig.verify(b64tohex(signature));
    document.getElementById("result2").innerText = 'Signature is: ' + ((isValid)?'valid':'invalid');
 });
