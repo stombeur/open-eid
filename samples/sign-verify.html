@@ -9,6 +9,8 @@ Message to sign:<br />
 <input type="button" id="sign" value="Sign" /><br />
 <div id="result"></div>
 <hr />
+<textarea id="cert"></textarea><br />
+<input type="text" id="signature" /><br />
 <input type="button" id="verify" value="Verify" /><br />
 <div id="result2"></div>
 <script type="text/javascript" src="https://e-id.eu.org/release/Open-eID.js"></script>
@@ -28,6 +30,8 @@ document.getElementById('sign').addEventListener('click', function() {
           if(i == 'cert_Signature') cert = json[i];
           if(i == 'signature') signature = json[i];
         }
+        document.getElementById('cert').value = cert;
+        document.getElementById('signature').value = signature;
         var tt = document.createElement('tt');
         tt.innerHTML = '{';
         document.getElementById('result').appendChild(tt);
@@ -44,6 +48,8 @@ document.getElementById('sign').addEventListener('click', function() {
 });
 
 document.getElementById('verify').addEventListener('click', function() {
+   cert = document.getElementById('cert').value;
+   signature = document.getElementById('signature').value;
    console.log(cert);
    console.log(signature);
    if(cert == '' || signature == '') return;
