@@ -37,6 +37,13 @@ var timeout = setTimeout(function() {
   }
 }, 2000);
 
+function getInt(bytes) {
+     return  (bytes[3]<<24) & 0xff000000 |
+             (bytes[2]<<16) & 0x00ff0000 |
+             (bytes[1]<< 8) & 0x0000ff00 |
+             (bytes[0]<< 0) & 0x000000ff;
+}
+
 process.stdin.on('readable', () => {
   const chunk = process.stdin.read();
   if (chunk !== null) {
@@ -46,10 +53,13 @@ process.stdin.on('readable', () => {
       data[1] = chunk.charCodeAt(1) & 0xff;
       data[2] = chunk.charCodeAt(2) & 0xff;
       data[3] = chunk.charCodeAt(3) & 0xff;        
+      /*
       stdlen = data[0];
       stdlen += (data[1] * 256);
       stdlen += (data[2] * 256 * 256);
       stdlen += (data[3] * 256 * 256 * 256);
+      */
+      stdlen = getInt(data);
       stdin += chunk.substring(4);
     } else {
       stdin += chunk;
@@ -66,7 +76,7 @@ function native(obj) {
      var json = JSON.stringify(obj);
      var l = json.length;
      var data = new Array(4);
-     data[0] = l & 0xff;
+     data[0] = (l >>> 0) & 0xff;
      data[1] = (l >>> 8) & 0xff;
      data[2] = (l >>> 16) & 0xff;
      data[3] = (l >>> 24) & 0xff;
@@ -227,7 +237,7 @@ function eid(confirm) {
                    { type: pkcs11js.CKA_VALUE }
                ]);
                if (attrs[1].value[0]){
-                   obj['cert_' + attrs[2].value.toString()] = attrs[3].value.toString('base64');
+                   obj['cert_' + attrs[2].value.toString()] = encodeURIComponent(attrs[3].value.toString('base64'));
                }
                hObject = pkcs11.C_FindObjects(session);
            }
@@ -254,10 +264,11 @@ function eid(confirm) {
             pkcs11.C_SignInit(session, { mechanism: pkcs11js.CKM_SHA1_RSA_PKCS }, privateKey);
             pkcs11.C_SignUpdate(session, new Buffer(message));
             var signature = pkcs11.C_SignFinal(session, new Buffer(256));
-            obj.signature = signature.toString('base64');
-            native(obj);                  
+            obj.signature = encodeURIComponent(signature.toString('base64'));
+            native(obj);
          }
-         pkcs11.C_CloseSession(session);
+
+        pkcs11.C_CloseSession(session);
      }
   }
   catch(e){

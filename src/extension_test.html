@@ -14,8 +14,8 @@ tt {
   display: block;
 }
 </style>
-<a href="javascript:window.postMessage({url: 'open-eid:'}, '*');" id="openEID">Click here to test the Web Extension (read)</a>
-<a href="javascript:window.postMessage({url: 'open-eid-sign:', message: btoa('Hello')}, '*');" id="openEID">Click here to test the Web Extension (sign)</a>
+<a href="javascript:window.postMessage({url: 'open-eid:'}, '*');" id="openEIDread">Click here to test the Web Extension (read)</a>
+<a href="javascript:window.postMessage({url: 'open-eid-sign:', message: btoa('Hello')}, '*');" id="openEIDsign">Click here to test the Web Extension (sign)</a>
 <hr />
 <script type="text/javascript">
 <!--//
@@ -23,6 +23,10 @@ tt {
 window.localStorage.setItem('open-eid', '');
 
 document.getElementById('openEID').addEventListener('click', function(event) {
+   waitForResult();
+});
+
+function waitForResult() {
   if('openEIDInstalled' in window) {
     // ok
   } else {
@@ -52,7 +56,7 @@ document.getElementById('openEID').addEventListener('click', function(event) {
       }
     }
   }, 1000);
-});
+}
 
 //-->
 </script>
