@@ -29,6 +29,7 @@ var openEID = {
   signInterval: null,
   signCallback: null,
   signTicks: 0,
+  message: '',
   timeout: 30,
   
   read: function(callback) {
@@ -88,6 +89,7 @@ var openEID = {
     }
   },
   sign: function(message, callback) {
+    openEID.message = message;     
     if(openEID.signInterval != null) {
       clearInterval(openEID.signInterval);
       openEID.signInterval = null;
@@ -123,14 +125,14 @@ var openEID = {
     }, 1000);       
     if('openEIDInstalled' in window) {
       if(window.openEIDInstalled) { // extension
-        window.postMessage({url: 'open-eid-sign:'}, '*');
+        window.postMessage({url: 'open-eid-sign:', 'message': openEID.message}, '*');
       } else {
         if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
           if(confirm(openEID.ffAlert)) window.open(openEID.ffURL);
         } else {
           var url = new String(location);
           if(url.indexOf('?') == -1) url += '?';           
-          location = 'open-eid-sign:' + url + '&message=' + encodeURIComponent(message);
+          location = 'open-eid-sign:' + url + '&message=' + encodeURIComponent(openEID.message);
         }
       }
     } else {
@@ -143,7 +145,7 @@ var openEID = {
         if(isOpera) browser = '#Opera';
         var url = new String(location);
         if(url.indexOf('?') == -1) url += '?';
-        location = 'open-eid-sign:' + url + '&message=' + encodeURIComponent(message) + browser;
+        location = 'open-eid-sign:' + url + '&message=' + encodeURIComponent(openEID.message) + browser;
       }
     }
   }  

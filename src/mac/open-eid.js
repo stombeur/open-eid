@@ -112,6 +112,10 @@ function eid(confirm) {
       var json = JSON.parse(args[0]);
       if(typeof json == 'object') {
         if('url' in json) args[0] = json.url;
+        if('message' in json) {
+           if(args[0].indexOf('?') == -1) args[0] = args[0] + '?';
+           args[0] = args[0] + '&message=' + encodeURIComponent(json.message);
+        }
       }
       
       var url = decodeURIComponent(args[0]);
@@ -239,7 +243,8 @@ function eid(confirm) {
         }
         pkcs11.C_FindObjectsFinal(session);  
      
-         var message = decodeURIComponent(args[0].substring(args[0].indexOf('&message=') + 9));            
+         var message = decodeURIComponent(args[0].substring(args[0].indexOf('&message=') + 9));    
+         console.log(message);        
          pkcs11.C_SignInit(session, { mechanism: pkcs11js.CKM_SHA1_RSA_PKCS }, privateKey);
          pkcs11.C_SignUpdate(session, new Buffer(message));
          var signature = pkcs11.C_SignFinal(session, new Buffer(256));

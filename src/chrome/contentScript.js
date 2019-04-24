@@ -66,6 +66,10 @@ if(typeof browser != 'undefined' && browser != null) {
         links[i].setAttribute('onmouseup', 'window.openEID_link = this; window.openEID.read(function(json) { window.open(window.openEID_link.href.substring(9) + \'#\' + encodeURIComponent(JSON.stringify(json))); window.openEID_link = null; });');
         links[i].setAttribute('onclick', 'return false;');
       }
+      if(links[i].href.indexOf('open-eid-sign:') == 0) {
+        links[i].setAttribute('onmouseup', 'window.openEID_link = this; window.openEID.read(function(json) { window.open(window.openEID_link.href.substring(14) + \'#\' + encodeURIComponent(JSON.stringify(json))); window.openEID_link = null; });');
+        links[i].setAttribute('onclick', 'return false;');
+      }      
     }
   });
 }
