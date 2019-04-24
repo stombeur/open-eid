@@ -24,6 +24,7 @@ Signing data is done using `open-eid-sign:` URL scheme followed by then URL to r
 Sample read `open-eid:https://e-id.eu.org/src/url_test.html`
 
 Test this sample on [Google Chrome](open-eid:https://e-id.eu.org/src/url_test.html#Google Chrome) ,
+[Google Chrome as poppup](open-eid:https://e-id.eu.org/src/url_test.html#Google Chrome App) ,
 [Safari](open-eid:https://e-id.eu.org/src/url_test.html#Safari),
 [Opera](open-eid:https://e-id.eu.org/src/url_test.html#Opera) or
 [Your default Browser](open-eid:https://e-id.eu.org/src/url_test.html)
@@ -31,6 +32,7 @@ Test this sample on [Google Chrome](open-eid:https://e-id.eu.org/src/url_test.ht
 Sample sign: `open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D`
 
 Test this sample on [Google Chrome](open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8=#Google Chrome) ,
+[Google Chrome as popup](open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8=#Google Chrome App) ,
 [Safari](open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8=#Safari),
 [Opera](open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8=#Opera) or
 [Your default Browser](open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8=)

@@ -81,6 +81,8 @@ function native(obj) {
        } else {
          if(args[1] != '') args[1] = '-a "' + args[1] + '" ';
        }
+       var url = args[0];
+       if(args[0].indexOf('&message=') != -1) args[0] = args[0].substring(0, args[0].indexOf('&message='));
        exec('open ' + args[1] + '"' + args[0].substring(args[0].indexOf(':') + 1) + '#' + encodeURIComponent(json) + '"');
      }
 }
