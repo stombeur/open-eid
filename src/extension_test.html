@@ -22,7 +22,11 @@ tt {
 
 window.localStorage.setItem('open-eid', '');
 
-document.getElementById('openEID').addEventListener('click', function(event) {
+document.getElementById('openEIDread').addEventListener('click', function(event) {
+   waitForResult();
+});
+
+document.getElementById('openEIDsign').addEventListener('click', function(event) {
    waitForResult();
 });
 
