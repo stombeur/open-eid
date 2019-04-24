@@ -30,10 +30,10 @@ Test this sample on [Google Chrome](open-eid:https://e-id.eu.org/src/url_test.ht
 
 Sample sign: `open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D`
 
-Test this sample on [Google Chrome](open-eid:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D#Google Chrome) ,
-[Safari](open-eid:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D#Safari),
-[Opera](open-eid:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D#Opera) or
-[Your default Browser](open-eid:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D)
+Test this sample on [Google Chrome](open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D#Google Chrome) ,
+[Safari](open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D#Safari),
+[Opera](open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D#Opera) or
+[Your default Browser](open-eid-sign:https://e-id.eu.org/src/url_test.html?&message=SGVsbG8%3D)
 
 The data is sent to the redirection URL fragment as an URL encoded JSON object after `#`.
 
