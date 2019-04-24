@@ -31,7 +31,7 @@ if(typeof json == 'object') {
   document.body.appendChild(tt);
   for(var i in json) {
     var tt = document.createElement('tt');
-    tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;';
+    tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;,';
     document.body.appendChild(tt);
   }
   var tt = document.createElement('tt');
