@@ -6,9 +6,10 @@ open-eid is a native plugin for the web to make e-ID card reading and signing ea
 
 ## Status
 
-This is a pre-release version 0.1 with the following features
+This is a pre-release version 0.2 with the following features
 
 - Read eID card content using URL or Web extension
+- Sign content with eID card content using URL or Web extension
 
 The app has been tested on Windows and Mac OS with belgian e-ID cards.
 
