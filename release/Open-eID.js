@@ -89,7 +89,7 @@ var openEID = {
     }
   },
   sign: function(message, callback) {
-    openEID.message = btoa(message);
+    openEID.message = btoa(unescape(encodeURIComponent(message)));
     if(openEID.signInterval != null) {
       clearInterval(openEID.signInterval);
       openEID.signInterval = null;
