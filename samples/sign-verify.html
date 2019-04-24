@@ -1,0 +1,60 @@
+<html>
+<head>
+   <title>Sign &amp; Verify</title>
+</head>
+<body>
+<h1>Sign &amp; Verify</h1>
+Message to sign:<br />
+<textarea id="message"></textarea><br />
+<input type="button" id="sign" value="Sign" /><br />
+<div id="result"></div>
+<hr />
+<input type="button" id="verify" value="Verify" /><br />
+<div id="result2"></div>
+<script type="text/javascript" src="https://e-id.eu.org/release/Open-eID.js"></script>
+<script type="text/javascript" src="jsrsasign-all-min.js"></script>
+<script type="text/javascript">
+<!--//
+
+var cert = '';
+var signature = '';
+
+document.getElementById('sign').addEventListener('click', function() {
+   openEID.sign(document.getElementById('message').value, function(result) {
+      if(typeof json == 'object') {
+        for(var i in json) {
+          try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
+          if(i == 'cert_Signature') cert = json[i];
+          if(i == 'signature') signature = json[i];
+        }
+        var tt = document.createElement('tt');
+        tt.innerHTML = '{';
+        document.getElementById('result').appendChild(tt);
+        for(var i in json) {
+          var tt = document.createElement('tt');
+          tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;,';
+          document.getElementById('result').appendChild(tt);
+        }
+        var tt = document.createElement('tt');
+        tt.innerHTML = '}';
+        document.getElementById('result').appendChild(tt);
+      }
+   })
+});
+
+document.getElementById('sign').addEventListener('click', function() {
+   console.log(cert);
+   console.log(signature);
+   var x = new X509();
+   x.readCertHex(b64tohex(cert));
+   var pubKey = x.getPublicKey();
+   var sig = new KJUR.crypto.Signature({"alg": "SHA1withRSA"});
+   sig.init(pubKey);
+   sig.updateString(btoa(document.getElementById('message').value));
+   var isValid = sig.verify(b64tohex(signature));
+   document.getElementById("result2").innerText = 'Signature is: ' + ((isValid)?'valid':'invalid');
+});
+//-->
+</script>
+</body>
+</html>
