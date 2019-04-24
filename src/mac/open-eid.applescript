@@ -31,9 +31,9 @@ on open location this_URL
 	end if
 	end if
 	if mojave then
-	do shell script current_path & "Contents/MacOS/open-eid " & this_URL
+	do shell script current_path & "Contents/MacOS/open-eid \"" & this_URL & "\""
 	else
-	do shell script current_path & "Contents/MacOS/open-eid " & this_URL & " \"" & secondFrontmost & "\""
+	do shell script current_path & "Contents/MacOS/open-eid \"" & this_URL & "\" \"" & secondFrontmost & "\""
 	if secondFrontmost is "Safari" then
 		tell front window of application "Safari"
 			delay 2

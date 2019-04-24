@@ -21,7 +21,7 @@ tt {
   document.body.appendChild(tt);
   for(var i in json) {
     var tt = document.createElement('tt');
-    tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;';
+    tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;,';
     document.body.appendChild(tt);
   }
   var tt = document.createElement('tt');
@@ -34,8 +34,21 @@ tt {
   document.body.appendChild(tt);
   for(var i in json) {
     var tt = document.createElement('tt');
-    tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;';
-    document.body.appendChild(tt);
+    if(typeof json[i] == 'object') {
+      tt.innerHTML = '&quot;' + i + '&quot;: {';
+      document.body.appendChild(tt);
+      for(var j in json[i]) {
+        var tt = document.createElement('tt');
+        tt.innerHTML = '&quot;' + j + '&quot;: &quot;' + json[i][j].substring(0, 47) + ((json[i][j].length > 50) ? '...' : '') + '&quot;,';
+        document.body.appendChild(tt);
+      }
+       var tt = document.createElement('tt');
+       tt.innerHTML = '},';
+       document.body.appendChild(tt);
+    } else {
+      tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;,';
+      document.body.appendChild(tt);
+    }
   }
   var tt = document.createElement('tt');
   tt.innerHTML = '}';
