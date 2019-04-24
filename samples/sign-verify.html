@@ -42,9 +42,10 @@ document.getElementById('sign').addEventListener('click', function() {
    })
 });
 
-document.getElementById('sign').addEventListener('click', function() {
+document.getElementById('verify').addEventListener('click', function() {
    console.log(cert);
    console.log(signature);
+   if(cert == '' || signature == '') return;
    var x = new X509();
    x.readCertHex(b64tohex(cert));
    var pubKey = x.getPublicKey();
