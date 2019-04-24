@@ -14,7 +14,8 @@ tt {
   display: block;
 }
 </style>
-<a href="javascript:window.postMessage({url: 'open-eid:'}, '*');" id="openEID">Click here to test the Web Extension</a>
+<a href="javascript:window.postMessage({url: 'open-eid:'}, '*');" id="openEID">Click here to test the Web Extension (read)</a>
+<a href="javascript:window.postMessage({url: 'open-eid-sign:', message: btoa('Hello')}, '*');" id="openEID">Click here to test the Web Extension (sign)</a>
 <hr />
 <script type="text/javascript">
 <!--//
