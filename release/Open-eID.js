@@ -26,6 +26,9 @@ var openEID = {
   readInterval: null,
   readCallback: null,
   readTicks: 0,
+  signInterval: null,
+  signCallback: null,
+  signTicks: 0,
   timeout: 30,
   
   read: function(callback) {
@@ -83,7 +86,67 @@ var openEID = {
         location = 'open-eid:' + new String(location) + browser;
       }
     }
-  }
+  },
+  sign: function(message, callback) {
+    if(openEID.signInterval != null) {
+      clearInterval(openEID.signInterval);
+      openEID.signInterval = null;
+      openEID.signTicks = 0;
+    }
+    openEID.signCallback = callback;
+    openEID.signInterval = setInterval(function() {
+      openEID.signTicks++;
+      if(openEID.signTicks > openEID.timeout) {
+        openEID.signCallback({'err': 'Timeout'});        
+        clearInterval(openEID.signInterval);
+        openEID.signInterval = null;
+        openEID.signTicks = 0;       
+        return; 
+      }
+      console.log('Wait for result...');
+      var result = window.localStorage.getItem('open-eid');
+      if(typeof result != 'undefined' && result != null) {
+        if(result != '') {
+          window.localStorage.setItem('open-eid', '');
+          var json = null;
+          try { json = eval('(' + result + ')'); } catch(e) { json = null; }
+          if(typeof json == 'object' && json != null) {  
+            for(var i in json) {
+              try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
+            }
+            clearInterval(openEID.signInterval);
+            openEID.signInterval = null;
+            openEID.signCallback(json);
+          }
+        }
+      }
+    }, 1000);       
+    if('openEIDInstalled' in window) {
+      if(window.openEIDInstalled) { // extension
+        window.postMessage({url: 'open-eid-sign:'}, '*');
+      } else {
+        if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+          if(confirm(openEID.ffAlert)) window.open(openEID.ffURL);
+        } else {
+          var url = new String(location);
+          if(url.indexOf('?') == -1) url += '?';           
+          location = 'open-eid-sign:' + url + '&message=' + encodeURIComponent(message);
+        }
+      }
+    } else {
+      if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        if(confirm(openEID.ffAlert)) window.open(openEID.ffURL);
+      } else {
+        var browser = '';
+        if(isChrome) browser = '#Google Chrome App'; // enable app mode
+        if(isSafari) browser = '#Safari';
+        if(isOpera) browser = '#Opera';
+        var url = new String(location);
+        if(url.indexOf('?') == -1) url += '?';
+        location = 'open-eid-sign:' + url + '&message=' + encodeURIComponent(message) + browser;
+      }
+    }
+  }  
 }
 
 window.openEID = openEID;

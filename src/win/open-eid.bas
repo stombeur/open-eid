@@ -5,6 +5,8 @@
 Dim Shared isnative As Boolean
 Dim Shared args As String
 Dim Shared Browser As String
+Dim Shared BrowserName As String
+Dim Shared url As String
 
 'Get browser path
 Dim hWnd As HWND
@@ -26,7 +28,7 @@ hProcess = OpenProcess(1040, 0, PID)
 BrowserLen = GetModuleFileNameEx(hProcess, 0, StrPtr(Browser), 4096)
 CloseHandle(@hProcess)
 Browser = Left(Browser, BrowserLen)
-If Browser = "" Then Browser = "start"
+BrowserName = WindowText
 
 'Load Swelio32 dll from executable
 dim Swelio_IsEngineActive as function cdecl () As Boolean
@@ -251,12 +253,27 @@ Sub Native(json As String)
     Open Cons For Output As #stdout
     Print #stdout, Chr(data0) & Chr(data1) & Chr(data2) & Chr(data3) & json,
     Close stdout
-    stdout = FreeFile
-    Open "C:\Temp\Test.log" For Output As #stdout
-    Print #stdout, Chr(data0) & Chr(data1) & Chr(data2) & Chr(data3) & json,
-    Close stdout    
-  Else
-    Exec(Browser, Mid(args, InStr(args, ":") + 1) & "#" & URLEncode(json))
+    'stdout = FreeFile
+    'Open "C:\Temp\Test.log" For Output As #stdout
+    'Print #stdout, Chr(data0) & Chr(data1) & Chr(data2) & Chr(data3) & json,
+    'Close stdout    
+  Else   
+    'Dim stdout As Integer
+    'stdout = FreeFile
+    'Open "C:\Temp\Test.log" For Output As #stdout
+    'Print #stdout, BrowserName,
+    'Close stdout  
+    url = Chr(34) & url
+    If Browser = "" Then
+      Browser = "cmd.exe"
+      url = "/c start " & url
+    End If
+    If BrowserName = "Google%20Chrome%20App" Then url = "--args --app=" & url
+    If InStr(UCase(Browser), "APPLICATIONFRAMEHOST.EXE") And InStr(UCase(BrowserName), "MICROSOFT EDGE") Then 'Edge ?
+      Browser = "cmd.exe"
+      url = "/c start microsoft-edge:" & url
+    End If
+    Exec(Browser, url & "#" & URLEncode(json) & Chr(34))
   End If
 End Sub
 
@@ -342,7 +359,12 @@ If Left(args, InStr(args, ":") + 1) = "" Then
   End
 End If
 
-If MessageBox(0, Mid(args, InStr(args, ":") + 1) & " wants to access your eID card content. Do you agree?", "eID", MB_YESNO OR MB_ICONQUESTION OR MB_DEFBUTTON2 OR MB_SYSTEMMODAL) <> IDYES Then End
+url = Mid(args, InStr(args, ":") + 1)
+If InStr(url, "#") Then 
+  BrowserName = Mid(url, InStr(url, "#") + 1)
+  url = Left(url, InStr(url, "#") - 1)
+End If
+If MessageBox(0, url & " wants to access your eID card content. Do you agree?", "eID", MB_YESNO OR MB_ICONQUESTION OR MB_DEFBUTTON2 OR MB_SYSTEMMODAL) <> IDYES Then End
 
 tmp = Environ("USERPROFILE") & "\eID.xml"
 Swelio_FileDelete(StrPtr(tmp))

@@ -27,7 +27,20 @@ tt {
   var tt = document.createElement('tt');
   tt.innerHTML = '}';
   document.body.appendChild(tt);
-});">Click here to test the Helper function</a>
+});">Click here to test the Helper read function</a> - 
+<a href="javascript:;" onclick="openEID.sign('Hello', function(json) {
+  var tt = document.createElement('tt');
+  tt.innerHTML = '{';
+  document.body.appendChild(tt);
+  for(var i in json) {
+    var tt = document.createElement('tt');
+    tt.innerHTML = '&quot;' + i + '&quot;: &quot;' + json[i].substring(0, 47) + ((json[i].length > 50) ? '...' : '') + '&quot;';
+    document.body.appendChild(tt);
+  }
+  var tt = document.createElement('tt');
+  tt.innerHTML = '}';
+  document.body.appendChild(tt);
+});">Click here to test the Helper sign function</a>
 <hr />
 </body>
 </html>
