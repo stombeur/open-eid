@@ -21,6 +21,7 @@ var signature = '';
 
 document.getElementById('sign').addEventListener('click', function() {
    openEID.sign(document.getElementById('message').value, function(result) {
+      var json = result;
       if(typeof json == 'object') {
         for(var i in json) {
           try { json[i] = decodeURIComponent(json[i]); } catch(e) { json[i] = unescape(json[i]); }
