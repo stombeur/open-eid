@@ -74,3 +74,4 @@ To build open-eid you need the following tools:
 * https://nodejs.org/
 * https://www.npmjs.com/package/pkg/
 * https://github.com/PeculiarVentures/pkcs11js/
+* https://github.com/kjur/jsrsasign/
